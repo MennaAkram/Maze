@@ -1,5 +1,6 @@
 package Pages.ChooseLevel;
 
+import Maps.Map5.Map5;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
 
@@ -26,7 +27,7 @@ public class ChooseLevel extends JFrame {
 
         level1.addActionListener(evt -> level1ActionPerformed());
         getContentPane().add(level1);
-        level1.setBounds(225, 110, 150, 40);
+        level1.setBounds(225, 70, 150, 40);
 
         level2.setFont(new Font("Maiden Orange", Font.PLAIN, 32)); // NOI18N
         level2.setText("Level 2");
@@ -34,7 +35,7 @@ public class ChooseLevel extends JFrame {
 
         level2.addActionListener(evt -> level2ActionPerformed());
         getContentPane().add(level2);
-        level2.setBounds(225, 160, 150, 40);
+        level2.setBounds(225, 120, 150, 40);
 
         level3.setFont(new Font("Maiden Orange", Font.PLAIN, 32)); // NOI18N
         level3.setText("Level 3");
@@ -42,15 +43,15 @@ public class ChooseLevel extends JFrame {
 
         level3.addActionListener(evt -> level3ActionPerformed());
         getContentPane().add(level3);
-        level3.setBounds(225, 210, 150, 40);
+        level3.setBounds(225, 170, 150, 40);
 
         level4.setFont(new Font("Maiden Orange", Font.PLAIN, 32)); // NOI18N
-        level4.setText("Level 3");
+        level4.setText("Level 4");
         level4.setBackground(new Color(217, 217, 217));
 
         level4.addActionListener(evt -> level4ActionPerformed());
         getContentPane().add(level4);
-        level4.setBounds(225, 210, 150, 40);
+        level4.setBounds(225, 220, 150, 40);
 
         level5.setFont(new Font("Maiden Orange", Font.PLAIN, 32)); // NOI18N
         level5.setText("Level 5");
@@ -58,7 +59,7 @@ public class ChooseLevel extends JFrame {
 
         level5.addActionListener(evt -> level5ActionPerformed());
         getContentPane().add(level5);
-        level5.setBounds(225, 210, 150, 40);
+        level5.setBounds(225, 270, 150, 40);
 
         GLCanvas glcanvas;
         Animator animator;
@@ -103,6 +104,6 @@ public class ChooseLevel extends JFrame {
 
     private void level5ActionPerformed() {
         this.dispose();
-//        new ChooseLevel().setVisible(true);
+        new Map5().setVisible(true);
     }
 }
