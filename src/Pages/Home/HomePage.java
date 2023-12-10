@@ -1,11 +1,13 @@
 package Pages.Home;
 
+import Maps.Map4.Sounds;
 import Pages.ChoosePlayer.ChoosePlayer;
 import Pages.HowToPlay.HowToPlay;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
 
 import javax.media.opengl.GLCanvas;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,8 +16,8 @@ public class HomePage extends JFrame {
     public static void main(String[] args) {
         new HomePage();
     }
-
-    public HomePage() {
+    public static Clip voice;
+    public HomePage(){
         JButton start = new JButton();
         JButton exit = new JButton();
         JButton help = new JButton();
@@ -63,6 +65,8 @@ public class HomePage extends JFrame {
         setVisible(true);
         setFocusable(true);
         glcanvas.requestFocus();
+        if (voice == null) voice = Sounds.playMusic("/music/wiki_home.wav",true);
+
     }
 
     private void exitActionPerformed() {
