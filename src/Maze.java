@@ -1,6 +1,11 @@
 import Pages.Home.HomePage;
 
-public class Maze {
+import javax.swing.*;
+
+public class Maze extends JFrame {
+    public Maze(){
+
+    }
     public static void main(String[] args) {
         new HomePage().setVisible(true);
     }
