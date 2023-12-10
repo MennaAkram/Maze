@@ -123,6 +123,7 @@ public class Map1Listener extends AnimListener {
         animationPlayerIndex = animationPlayerIndex % 4;
 
         handleKeyPress();
+        handleBallsCollision();
 
         gl.glPushMatrix();
         gl.glTranslated(135, 385, 0);
@@ -132,6 +133,19 @@ public class Map1Listener extends AnimListener {
         DrawBalles(gl);
         gl.glPopMatrix();
 
+    }
+
+    private void handleBallsCollision() {
+        BounceBalls ballToRemove = null;
+        for (BounceBalls ball:balls) {
+            if (player.i == ball.i && player.j == ball.j){
+                ballToRemove = ball;
+                break;
+            }
+        }
+        if (ballToRemove != null){
+            balls.remove(ballToRemove);
+        }
     }
 
     public void DrawBalles(GL gl) {
