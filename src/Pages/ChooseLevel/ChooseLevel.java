@@ -1,6 +1,6 @@
 package Pages.ChooseLevel;
 
-import Maps.Map5.Map5;
+import Maps.Map5.Single.Map5;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
 
