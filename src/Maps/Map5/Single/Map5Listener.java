@@ -69,6 +69,7 @@ public class Map5Listener extends AnimListener {
     Timer timer = new Timer(1000, e -> time++);
     Timer ghostTimerMove = new Timer(500, e -> handleGhostMove());
     boolean pause = false;
+    int lives = 3;
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
@@ -102,15 +103,7 @@ public class Map5Listener extends AnimListener {
             }
         }
 
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                if (map[i][j] == -1) {
-                    player.i = i;
-                    player.j = j;
-                    player.updateXY();
-                }
-            }
-        }
+        resetPlayer();
         initGhost();
         timer.start();
         ghostTimerMove.start();
@@ -121,9 +114,8 @@ public class Map5Listener extends AnimListener {
         gl.glPushAttrib(GL.GL_CURRENT_BIT);
         gl.glRasterPos2i(x, y);
         gl.glColor3f(0, 0, 1); // BLUE
-        glt.glutBitmapString(GLUT.BITMAP_HELVETICA_12, s);
+        glt.glutBitmapString(5, s);
         gl.glPopAttrib();
-//        glt.glutBitmapString(6, s);
     }
 
     @Override
@@ -140,6 +132,7 @@ public class Map5Listener extends AnimListener {
         animationPlayerIndex = animationPlayerIndex % 4;
 
         handleKeyPress();
+        handleLose();
 
         gl.glPushMatrix();
         gl.glTranslated(135, 385, 0);
@@ -151,6 +144,7 @@ public class Map5Listener extends AnimListener {
         try {
             gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
             drawString(gl, 8, 8, "Time: " + time);
+            drawString(gl, 8, 40, "Lives: " + lives);
         } catch (GLException e) {
             System.out.println(e.getMessage());
         }
@@ -248,6 +242,29 @@ public class Map5Listener extends AnimListener {
                 if (player.j - 1 < 0) return;
                 if (map[player.i][player.j - 1] == 1) {
                     player.moveLeft();
+                }
+            }
+        }
+    }
+
+    private void handleLose() {
+        if (player.i == ghost.i && player.j == ghost.j) {
+            if (lives == 1) {
+                // TODO: LOSE
+            } else {
+                lives--;
+                resetPlayer();
+            }
+        }
+    }
+
+    private void resetPlayer() {
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (map[i][j] == -1) {
+                    player.i = i;
+                    player.j = j;
+                    player.updateXY();
                 }
             }
         }
