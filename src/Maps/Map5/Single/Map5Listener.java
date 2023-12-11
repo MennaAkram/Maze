@@ -17,7 +17,7 @@ import java.util.*;
 import static java.awt.event.KeyEvent.*;
 
 public class Map5Listener extends AnimListener {
-    String[] textureNames = {"Maps//Map5.png", "Player.png", "Player2.png"};
+    String[] textureNames = {"Ghost1.png" ,"Ghost2.png" ,"Ghost3.png" ,"Ghost4.png", "Maps//Map5.png", "Player.png"};
     TextureReader.Texture[] texture = new TextureReader.Texture[textureNames.length];
     int[] textures = new int[textureNames.length];
     int animationPlayerIndex = 1;
@@ -138,7 +138,7 @@ public class Map5Listener extends AnimListener {
         gl.glTranslated(135, 385, 0);
         gl.glScaled(0.95, 1.1, 1);
         gl.glRotated(-90, 0, 0, 1);
-        player.Draw(gl, textures[1]);
+        player.Draw(gl, textures[5]);
         drawGhost(gl);
         gl.glPopMatrix();
         try {
@@ -152,7 +152,7 @@ public class Map5Listener extends AnimListener {
 
     public void DrawBackground(GL gl) {
         gl.glEnable(GL.GL_BLEND);    // Turn Blending On
-        gl.glBindTexture(GL.GL_TEXTURE_2D, textures[0]);
+        gl.glBindTexture(GL.GL_TEXTURE_2D, textures[4]);
         gl.glBegin(GL.GL_QUADS);
         // Front Face
         gl.glTexCoord2f(0.0f, 0.0f);
@@ -180,7 +180,7 @@ public class Map5Listener extends AnimListener {
     }
 
     private void drawGhost(GL gl) {
-        ghost.Draw(gl, textures[2]);
+        ghost.Draw(gl, textures[animationPlayerIndex]);
     }
 
     private void initGhost() {
@@ -277,12 +277,23 @@ public class Map5Listener extends AnimListener {
             Directions nextMove = optimalPath.get(0);
 
             switch (nextMove) {
-                case UP -> ghost.moveUP();
-                case DOWN -> ghost.moveDown();
-                case RIGHT -> ghost.moveRight();
-                case LEFT -> ghost.moveLeft();
-                case IDEAL -> {
+                case UP -> {
+                    ghost.moveUP();
+                    animationPlayerIndex++;
                 }
+                case DOWN -> {
+                    ghost.moveDown();
+                    animationPlayerIndex++;
+                }
+                case RIGHT -> {
+                    ghost.moveRight();
+                    animationPlayerIndex++;
+                }
+                case LEFT -> {
+                    ghost.moveLeft();
+                    animationPlayerIndex++;
+                }
+                case IDEAL -> animationPlayerIndex++;
             }
         }
     }
