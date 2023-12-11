@@ -1,4 +1,4 @@
-package Maps.Map5;
+package Maps.Map5.Single;
 
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
@@ -7,14 +7,14 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Map5 extends JFrame {
+        GLCanvas glcanvas;
+        static Animator animator;
 
     public static void main(String[] args) {
         new Map5();
     }
 
     public Map5() {
-        GLCanvas glcanvas;
-        Animator animator;
 
         Map5Listener listener = new Map5Listener();
         glcanvas = new GLCanvas();

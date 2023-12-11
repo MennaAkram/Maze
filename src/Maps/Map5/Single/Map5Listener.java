@@ -1,19 +1,23 @@
-package Maps.Map5;
+package Maps.Map5.Single;
 
-import Core.AnimListener;
-import Core.Directions;
-import Core.Player;
+import Core.*;
 import Core.texture.TextureReader;
+import com.sun.opengl.util.GLUT;
+
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.GLException;
 import javax.media.opengl.glu.GLU;
+import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.util.BitSet;
+import java.util.*;
+
 import static java.awt.event.KeyEvent.*;
 
 public class Map5Listener extends AnimListener {
-    String[] textureNames = {"Maps//Map5.png", "Player.png"};
+    String[] textureNames = {"Maps//Map5.png", "Player.png", "Player2.png"};
     TextureReader.Texture[] texture = new TextureReader.Texture[textureNames.length];
     int[] textures = new int[textureNames.length];
     int animationPlayerIndex = 1;
@@ -58,11 +62,20 @@ public class Map5Listener extends AnimListener {
     int row = map.length;
     int col = map[0].length;
     Player player = new Player();
+    Random random = new Random();
+    Ghost ghost;
+    AStarAlgorithm aStarAlgorithm;
+    int time;
+    Timer timer = new Timer(1000, e -> time++);
+    Timer ghostTimerMove = new Timer(500, e -> handleGhostMove());
+    boolean pause = false;
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
+        aStarAlgorithm = new AStarAlgorithm(map);
+
         GL gl = glAutoDrawable.getGL();
-        gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
 
         gl.glLoadIdentity();
         gl.glOrtho(0, 600, 0, 400, 0, 1.0);
@@ -98,6 +111,19 @@ public class Map5Listener extends AnimListener {
                 }
             }
         }
+        initGhost();
+        timer.start();
+        ghostTimerMove.start();
+    }
+
+    private static void drawString(GL gl, int x, int y, String s) {
+        GLUT glt = new GLUT();
+        gl.glPushAttrib(GL.GL_CURRENT_BIT);
+        gl.glRasterPos2i(x, y);
+        gl.glColor3f(0, 0, 1); // BLUE
+        glt.glutBitmapString(GLUT.BITMAP_HELVETICA_12, s);
+        gl.glPopAttrib();
+//        glt.glutBitmapString(6, s);
     }
 
     @Override
@@ -119,8 +145,15 @@ public class Map5Listener extends AnimListener {
         gl.glTranslated(135, 385, 0);
         gl.glScaled(0.95, 1.1, 1);
         gl.glRotated(-90, 0, 0, 1);
-        player.Draw(gl,textures[1]);
+        player.Draw(gl, textures[1]);
+        drawGhost(gl);
         gl.glPopMatrix();
+        try {
+            gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+            drawString(gl, 8, 8, "Time: " + time);
+        } catch (GLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void DrawBackground(GL gl) {
@@ -150,6 +183,25 @@ public class Map5Listener extends AnimListener {
 
     @Override
     public void displayChanged(GLAutoDrawable glAutoDrawable, boolean b, boolean b1) {
+    }
+
+    private void drawGhost(GL gl) {
+        ghost.Draw(gl, textures[2]);
+    }
+
+    private void initGhost() {
+        ArrayList<Pair> validPositions = new ArrayList<>();
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (map[i][j] == 1) {
+                    validPositions.add(new Pair(i, j));
+                }
+            }
+        }
+
+        Pair item = validPositions.get(random.nextInt(validPositions.size()));
+        ghost = new Ghost(item.i, item.j);
     }
 
     public BitSet keyBits = new BitSet(256);
@@ -201,6 +253,24 @@ public class Map5Listener extends AnimListener {
         }
     }
 
+    private void handleGhostMove() {
+        List<Directions> optimalPath = aStarAlgorithm.findOptimalPath(ghost.i, ghost.j, player.i, player.j);
+
+        if (!optimalPath.isEmpty()) {
+            Directions nextMove = optimalPath.get(0);
+
+            switch (nextMove) {
+                case UP -> ghost.moveUP();
+                case DOWN -> ghost.moveDown();
+                case RIGHT -> ghost.moveRight();
+                case LEFT -> ghost.moveLeft();
+                case IDEAL -> {
+                }
+            }
+        }
+    }
+
+
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -209,6 +279,19 @@ public class Map5Listener extends AnimListener {
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
         keyBits.set(keyCode);
+        if (keyCode == VK_SPACE) {
+            pause = !pause;
+            if (pause) {
+                timer.stop();
+                ghostTimerMove.stop();
+                Map5.animator.stop();
+                JOptionPane.showMessageDialog(null, "Click Double Space to Resume", "Pause", JOptionPane.WARNING_MESSAGE);
+            } else {
+                Map5.animator.start();
+                timer.start();
+                ghostTimerMove.start();
+            }
+        }
     }
 
     @Override
@@ -222,5 +305,14 @@ public class Map5Listener extends AnimListener {
 
     public boolean isKeyPressed(final int keyCode) {
         return keyBits.get(keyCode);
+    }
+}
+
+class Pair {
+    int i, j;
+
+    public Pair(int i, int j) {
+        this.i = i;
+        this.j = j;
     }
 }
