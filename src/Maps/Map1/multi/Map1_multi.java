@@ -17,7 +17,7 @@ public class Map1_multi extends JFrame {
         glcanvas.addGLEventListener(listener);
         glcanvas.addKeyListener(listener);
         getContentPane().add(glcanvas, BorderLayout.CENTER);
-        animator = new FPSAnimator(24);
+        animator = new FPSAnimator(18);
         animator.add(glcanvas);
         animator.start();
 

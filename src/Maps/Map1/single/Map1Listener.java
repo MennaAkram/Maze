@@ -5,6 +5,7 @@ import Core.BounceBalls;
 import Core.Directions;
 import Core.Player;
 import Core.texture.TextureReader;
+import Pages.ChooseLevel.ChooseLevel;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -151,11 +152,11 @@ public class Map1Listener extends AnimListener {
 
 int score;
 int highscore= ReadHighScore();
-
     private void handelWinning() {
         if ((map[player.i ][player.j] == 2)) { // Winning
             System.out.println("Win");
           //  frame.dispose();
+            ChooseLevel.enable = true;
         }
     }
 
