@@ -10,8 +10,13 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.Random;
+import java.util.Scanner;
 
 import static java.awt.event.KeyEvent.*;
 
@@ -132,7 +137,26 @@ public class Map1Listener extends AnimListener {
         player.Draw(gl, textures[1]);
         DrawBalles(gl);
         gl.glPopMatrix();
+            if (score > highscore) {
+                AddHighScore(score);
+                highscore = ReadHighScore();
+            }
+//        if (map[player.i][player.j] == 2) { // Winning
+//            System.out.println("Win");
+//        }
+        handelWinning();
+    }
+//        handelWinning();
 
+
+int score;
+int highscore= ReadHighScore();
+
+    private void handelWinning() {
+        if ((map[player.i ][player.j] == 2)) { // Winning
+            System.out.println("Win");
+          //  frame.dispose();
+        }
     }
 
     private void handleBallsCollision() {
@@ -140,12 +164,35 @@ public class Map1Listener extends AnimListener {
         for (BounceBalls ball:balls) {
             if (player.i == ball.i && player.j == ball.j){
                 ballToRemove = ball;
+                score=score+10;
+                System.out.println(score);
                 break;
             }
         }
         if (ballToRemove != null){
             balls.remove(ballToRemove);
         }
+    }
+
+    public static void AddHighScore(int score) {
+        try (FileWriter f = new FileWriter("Score.txt", false);
+             Scanner input = new Scanner(new File("Score.txt"))) {
+            int highScore = input.hasNext() ? input.nextInt() : 0;
+            if (score > highScore) highScore = score;
+            f.write(highScore + "");
+            f.flush();
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    }
+
+    public static int ReadHighScore() {
+        try (Scanner input = new Scanner(new File("Score.txt"));) {
+            return (input.hasNext()) ? input.nextInt() : 0;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public void DrawBalles(GL gl) {
