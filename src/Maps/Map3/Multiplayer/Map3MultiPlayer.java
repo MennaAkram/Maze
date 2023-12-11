@@ -1,6 +1,6 @@
-package Maps.Map3;
+package Maps.Map3.Multiplayer;
 
-import Maps.Map5.Map5Listener;
+import Maps.Map3.SinglePlayer.Map3Listener;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
 
@@ -8,20 +8,20 @@ import javax.media.opengl.GLCanvas;
 import javax.swing.*;
 import java.awt.*;
 
-public class Map3 extends JFrame {
+public class Map3MultiPlayer extends JFrame {
     public static void main(String[] args) {
 //        for (int i = 0; i < 10; i++) {
 //            System.out.println(i%4);
 //        }
-        new Map3();
+        new Map3MultiPlayer();
     }
 
 
-    public Map3() {
+    public Map3MultiPlayer() {
         GLCanvas glcanvas;
         Animator animator;
 
-        Map3Listener listener = new Map3Listener();
+        Map3MultiPlayerListener listener = new Map3MultiPlayerListener();
         glcanvas = new GLCanvas();
         glcanvas.addGLEventListener(listener);
         glcanvas.addKeyListener(listener);

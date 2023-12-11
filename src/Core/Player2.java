@@ -1,8 +1,7 @@
 package Core;
-
 import javax.media.opengl.GL;
 
-public class Player {
+public class Player2 {
     public static int step = 10;
     public float x, y;
     public int i, j;
@@ -41,29 +40,30 @@ public class Player {
         gl.glDisable(GL.GL_BLEND);
     }
 
-
-
-    public void moveUP() {
-        direction = Directions.UP;
+    public void moveU() {
+        direction = Directions.W;
         x -= step;
         updateIJ();
     }
 
-    public void moveDown() {
-        direction = Directions.DOWN;
+    public void moveD() {
+        direction = Directions.S;
         x += step;
         updateIJ();
     }
 
-    public void moveRight() {
-        direction = Directions.RIGHT;
+    public void moveR() {
+        direction = Directions.D;
         y += step;
         updateIJ();
     }
 
-    public void moveLeft() {
-        direction = Directions.LEFT;
+    public void moveL() {
+        direction = Directions.A;
         y -= step;
         updateIJ();
     }
+
+
+
 }

@@ -1,4 +1,4 @@
-package Maps.Map3;
+package Maps.Map3.SinglePlayer;
 
 import Core.AnimListener;
 import Core.Directions;
