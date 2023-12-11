@@ -3,7 +3,6 @@ package Maps.Map3.Multiplayer;
 import Maps.Map3.SinglePlayer.Map3Listener;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
-
 import javax.media.opengl.GLCanvas;
 import javax.swing.*;
 import java.awt.*;
