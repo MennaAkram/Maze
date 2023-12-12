@@ -52,7 +52,7 @@ public class Map1Listener_multi extends AnimListener {
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
         GL gl = glAutoDrawable.getGL();
-        gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        gl.glClearColor(0.16f, 0.52f, 0.52f, 1.0f);
 
         gl.glLoadIdentity();
         gl.glOrtho(0, 600, 0, 400, 0, 1.0);

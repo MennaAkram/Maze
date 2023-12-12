@@ -1,20 +1,20 @@
 package Maps.Map3.Multiplayer;
 
-import Maps.Map3.SinglePlayer.Map3Listener;
-import Pages.Home.HomePage;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
+
 import javax.media.opengl.GLCanvas;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 public class Map3MultiPlayer extends JFrame {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedAudioFileException, IOException {
         new Map3MultiPlayer();
     }
 
-    public Map3MultiPlayer() {
+    public Map3MultiPlayer() throws UnsupportedAudioFileException, IOException {
         GLCanvas glcanvas;
         Animator animator;
 
@@ -36,15 +36,4 @@ public class Map3MultiPlayer extends JFrame {
         setFocusable(true);
         glcanvas.requestFocus();
     }
-
-    public void processWindowEvent(final WindowEvent e) {
-        super.processWindowEvent(e);
-
-        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-
-            new HomePage().setVisible(true);
-//            HomePage.voice.start();
-        }
-    }
-
 }

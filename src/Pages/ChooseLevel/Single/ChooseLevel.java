@@ -1,8 +1,9 @@
 package Pages.ChooseLevel.Single;
 
 import Maps.Map1.single.Map1;
+import Maps.Map2.SinglePlayer.Map2;
 import Maps.Map3.SinglePlayer.Map3;
-import Maps.Map5.Single.Map5;
+import Maps.Map4.Single.Map4;
 import Pages.Home.HomePage;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
@@ -24,7 +25,6 @@ public class ChooseLevel extends JFrame {
         JButton level2 = new JButton();
         JButton level3 = new JButton();
         JButton level4 = new JButton();
-        JButton level5 = new JButton();
 
         level1.setFont(new Font("Maiden Orange", Font.PLAIN, 32)); // NOI18N
         level1.setText("Level 1");
@@ -58,15 +58,6 @@ public class ChooseLevel extends JFrame {
         getContentPane().add(level4);
         level4.setBounds(225, 220, 150, 40);
 
-        level5.setFont(new Font("Maiden Orange", Font.PLAIN, 32)); // NOI18N
-        level5.setText("Level 5");
-        level5.setBackground(new Color(217, 217, 217));
-        level5.setEnabled(enable);
-
-        level5.addActionListener(evt -> level5ActionPerformed());
-        getContentPane().add(level5);
-        level5.setBounds(225, 270, 150, 40);
-
         GLCanvas glcanvas;
         Animator animator;
 
@@ -95,7 +86,7 @@ public class ChooseLevel extends JFrame {
 
     private void level2ActionPerformed() {
         this.dispose();
-//        new ChooseLevel().setVisible(true);
+        new Map2().setVisible(true);
     }
 
     private void level3ActionPerformed() {
@@ -105,19 +96,13 @@ public class ChooseLevel extends JFrame {
 
     private void level4ActionPerformed() {
         this.dispose();
-//        new ChooseLevel().setVisible(true);
-    }
-
-    private void level5ActionPerformed() {
-        this.dispose();
-        new Map5().setVisible(true);
+        new Map4().setVisible(true);
     }
 
     public void processWindowEvent(final WindowEvent e) {
         super.processWindowEvent(e);
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
             new HomePage().setVisible(true);
-//            HomePage.voice.start();
         }
     }
 

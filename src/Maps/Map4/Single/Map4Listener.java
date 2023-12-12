@@ -1,4 +1,4 @@
-package Maps.Map5.Single;
+package Maps.Map4.Single;
 
 import Core.*;
 import Core.texture.TextureReader;
@@ -17,7 +17,7 @@ import java.util.*;
 import static Core.Utils.*;
 import static java.awt.event.KeyEvent.*;
 
-public class Map5Listener extends AnimListener {
+public class Map4Listener extends AnimListener {
     String[] textureNames = {"Ghost1.png" ,"Ghost2.png" ,"Ghost3.png" ,"Ghost4.png", "Maps//Map5.png", "Player.png"};
     TextureReader.Texture[] texture = new TextureReader.Texture[textureNames.length];
     int[] textures = new int[textureNames.length];
@@ -71,13 +71,15 @@ public class Map5Listener extends AnimListener {
     Timer ghostTimerMove = new Timer(500, e -> handleGhostMove());
     boolean pause = false;
     int lives = 3;
-    static Map5 map5 = new Map5();
+    static Map4 map5 = new Map4();
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
         aStarAlgorithm = new AStarAlgorithm(map);
 
         GL gl = glAutoDrawable.getGL();
+        gl.glClearColor(0.16f, 0.52f, 0.52f, 1.0f);
+
         gl.glLoadIdentity();
         gl.glOrtho(0, 600, 0, 400, 0, 1.0);
 
@@ -133,7 +135,6 @@ public class Map5Listener extends AnimListener {
         drawGhost(gl);
         gl.glPopMatrix();
         try {
-            gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
             drawString(gl, 8, 8, "Time: " + time);
             drawString(gl, 8, 40, "Lives: " + lives);
         } catch (GLException e) {
@@ -270,10 +271,10 @@ public class Map5Listener extends AnimListener {
             if (pause) {
                 timer.stop();
                 ghostTimerMove.stop();
-                Map5.animator.stop();
+                Map4.animator.stop();
                 JOptionPane.showMessageDialog(null, "Click Double Space to Resume", "Pause", JOptionPane.WARNING_MESSAGE);
             } else {
-                Map5.animator.start();
+                Map4.animator.start();
                 timer.start();
                 ghostTimerMove.start();
             }

@@ -71,7 +71,6 @@ public class ChoosePlayer extends JFrame {
         super.processWindowEvent(e);
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
             new HomePage().setVisible(true);
-//            HomePage.voice.start();
         }
     }
 

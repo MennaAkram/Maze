@@ -1,4 +1,4 @@
-package Maps.Map5.Multi;
+package Maps.Map4.Multi;
 
 import Core.AnimListener;
 import Core.Directions;
@@ -16,8 +16,8 @@ import java.util.BitSet;
 
 import static java.awt.event.KeyEvent.*;
 
-public class Map5MultiListener extends AnimListener {
-    String[] textureNames = {"Maps//Map5.png", "Player.png", "Player2.png"};
+public class Map4MultiListener extends AnimListener {
+    String[] textureNames = {"Maps//Map4.png", "Player.png", "Player2.png"};
     TextureReader.Texture[] texture = new TextureReader.Texture[textureNames.length];
     int[] textures = new int[textureNames.length];
     int animationPlayerIndex = 1;
@@ -70,7 +70,7 @@ public class Map5MultiListener extends AnimListener {
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
         GL gl = glAutoDrawable.getGL();
-        gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        gl.glClearColor(0.16f, 0.52f, 0.52f, 1.0f);
 
         gl.glLoadIdentity();
         gl.glOrtho(0, 600, 0, 400, 0, 1.0);
@@ -296,12 +296,12 @@ public class Map5MultiListener extends AnimListener {
             pause = !pause;
             if (pause) {
                 timer.stop();
-                Map5Multi.animator.stop();
+                Map4Multi.animator.stop();
 
                 JOptionPane.showMessageDialog(null, "Enter Space to Resume", "Pause", JOptionPane.WARNING_MESSAGE);
             } else {
 //                timer.start();
-                Map5Multi.animator.start();
+                Map4Multi.animator.start();
                 timer.start();
             }
         }

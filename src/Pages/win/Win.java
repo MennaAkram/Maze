@@ -1,4 +1,4 @@
-package Maps.win;
+package Pages.win;
 
 import Pages.Home.HomePage;
 

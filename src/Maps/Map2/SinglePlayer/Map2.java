@@ -1,29 +1,30 @@
-package Maps.Map4;
+package Maps.Map2.SinglePlayer;
 
+import Pages.Home.HomePage;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
 
 import javax.media.opengl.GLCanvas;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
+import java.awt.event.WindowEvent;
 
-public class Map4 extends JFrame {
-    public static void main(String[] args) throws UnsupportedAudioFileException, IOException {
-        new Map4();
+public class Map2 extends JFrame {
+
+    public static void main(String[] args) {
+        new Map2();
     }
 
-    public Map4() throws UnsupportedAudioFileException, IOException {
+    public Map2() {
         GLCanvas glcanvas;
         Animator animator;
 
-        Map4Listener listener = new Map4Listener();
+        Map2Listener listener = new Map2Listener();
         glcanvas = new GLCanvas();
         glcanvas.addGLEventListener(listener);
         glcanvas.addKeyListener(listener);
         getContentPane().add(glcanvas, BorderLayout.CENTER);
-        animator = new FPSAnimator(18);
+        animator = new FPSAnimator(24);
         animator.add(glcanvas);
         animator.start();
 
@@ -36,4 +37,15 @@ public class Map4 extends JFrame {
         setFocusable(true);
         glcanvas.requestFocus();
     }
+
+    public void processWindowEvent(final WindowEvent e) {
+        super.processWindowEvent(e);
+
+        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+
+            new HomePage().setVisible(true);
+//            HomePage.voice.start();
+        }
+    }
+
 }

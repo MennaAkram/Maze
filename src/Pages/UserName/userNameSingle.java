@@ -4,7 +4,7 @@
  */
 package Pages.UserName;
 
-import Maps.Map3.SinglePlayer.Map3Listener;
+import Maps.Map2.SinglePlayer.Map2Listener;
 import Pages.ChooseLevel.Single.ChooseLevel;
 import Pages.ChoosePlayer.ChoosePlayer;
 import Pages.Home.HomePage;
@@ -150,7 +150,7 @@ public class userNameSingle extends javax.swing.JFrame {
             if (!flag) {
                 SaveUser(jTextField1.getText() + " ");
                 // For Now
-                Map3Listener.userName = jTextField1.getText();
+                Map2Listener.userName = jTextField1.getText();
                 //Map1Listener.userName= Map2Listener.userName= Map3Listener.userName= Map4Listener.userName= Map5Listener.userName = jTextField1.getText();
 
             }

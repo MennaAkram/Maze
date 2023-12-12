@@ -4,7 +4,7 @@
  */
 package Pages.UserName;
 
-import Maps.Map3.Multiplayer.Map3MultiPlayerListener;
+import Maps.Map2.Multiplayer.Map2MultiPlayerListener;
 import Pages.ChooseLevel.Multi.ChooseLevelMulti;
 import Pages.ChoosePlayer.ChoosePlayer;
 import Pages.Home.HomePage;
@@ -161,8 +161,8 @@ public class userNameMultiplayer extends javax.swing.JFrame {
                 SaveUser(Player2TextField.getText()+ " ");
                 SaveUser(Player1TextField.getText()+ " ");
                  // For Now
-                Map3MultiPlayerListener.userName1 = Player1TextField.getText();
-                Map3MultiPlayerListener.userName2 = Player2TextField.getText();
+                Map2MultiPlayerListener.userName1 = Player1TextField.getText();
+                Map2MultiPlayerListener.userName2 = Player2TextField.getText();
                // Map1_MultiListener.userName1= Map22Listener.userName1= Map3MultiListener.userName1= Map4MultiListener.userName1= MultiMap5Listener.userName1 = jTextField2.getText();
                // Map1_MultiListener.userName2= Map22Listener.userName2= Map3MultiListener.userName2= Map4MultiListener.userName2= MultiMap5Listener.userName2 = jTextField1.getText();
             }

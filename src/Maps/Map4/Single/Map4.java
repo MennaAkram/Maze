@@ -1,4 +1,4 @@
-package Maps.Map5.Multi;
+package Maps.Map4.Single;
 
 import Pages.Home.HomePage;
 import com.sun.opengl.util.Animator;
@@ -8,22 +8,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 
-public class Map5Multi extends JFrame {
+public class Map4 extends JFrame {
         GLCanvas glcanvas;
         static Animator animator;
 
     public static void main(String[] args) {
-        new Map5Multi();
+        new Map4();
     }
 
-    public Map5Multi() {
+    public Map4() {
 
-        Map5MultiListener listener = new Map5MultiListener();
+        Map4Listener listener = new Map4Listener();
         glcanvas = new GLCanvas();
         glcanvas.addGLEventListener(listener);
         glcanvas.addKeyListener(listener);
         getContentPane().add(glcanvas, BorderLayout.CENTER);
-        animator = new FPSAnimator(24);
+        animator = new FPSAnimator(18);
         animator.add(glcanvas);
         animator.start();
 
@@ -35,6 +35,7 @@ public class Map5Multi extends JFrame {
         setVisible(true);
         setFocusable(true);
         glcanvas.requestFocus();
+//        Map5Listener.map5 = this;
     }
 
     public void processWindowEvent(final WindowEvent e) {
@@ -46,5 +47,9 @@ public class Map5Multi extends JFrame {
 //            HomePage.voice.start();
         }
     }
+
+//    public void disposePage(){
+//        this.dispose();
+//    }
 
 }
