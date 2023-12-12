@@ -10,14 +10,14 @@ import java.awt.event.WindowEvent;
 
 public class Map4 extends JFrame {
         GLCanvas glcanvas;
-        static Animator animator;
+        public static Animator animator;
 
     public static void main(String[] args) {
         new Map4();
     }
 
     public Map4() {
-
+        Map4Listener.map5=this;
         Map4Listener listener = new Map4Listener();
         glcanvas = new GLCanvas();
         glcanvas.addGLEventListener(listener);
@@ -28,7 +28,7 @@ public class Map4 extends JFrame {
         animator.start();
 
         setTitle("Maze");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         setSize(600, 400);
         setResizable(false);
         setLocationRelativeTo(null);

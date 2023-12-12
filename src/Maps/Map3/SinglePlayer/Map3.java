@@ -1,5 +1,6 @@
 package Maps.Map3.SinglePlayer;
 
+import Maps.Map4.Single.Map4Listener;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
 
@@ -15,6 +16,7 @@ public class Map3 extends JFrame {
     }
 
     public Map3() {
+        Map3Listener.map5=this;
         GLCanvas glcanvas;
         Animator animator;
 
@@ -23,12 +25,12 @@ public class Map3 extends JFrame {
         glcanvas.addGLEventListener(listener);
         glcanvas.addKeyListener(listener);
         getContentPane().add(glcanvas, BorderLayout.CENTER);
-        animator = new FPSAnimator(18);
+        animator = new FPSAnimator(15);
         animator.add(glcanvas);
         animator.start();
 
         setTitle("Maze");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         setSize(600, 400);
         setResizable(false);
         setLocationRelativeTo(null);

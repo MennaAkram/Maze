@@ -18,7 +18,7 @@ import static Core.Utils.*;
 import static java.awt.event.KeyEvent.*;
 
 public class Map4Listener extends AnimListener {
-    String[] textureNames = {"Ghost1.png" ,"Ghost2.png" ,"Ghost3.png" ,"Ghost4.png", "Maps//Map5.png", "Player.png"};
+    String[] textureNames = {"Ghost1.png" ,"Ghost2.png" ,"Ghost3.png" ,"Ghost4.png", "Maps//Map4.png", "Player.png"};
     TextureReader.Texture[] texture = new TextureReader.Texture[textureNames.length];
     int[] textures = new int[textureNames.length];
     int animationPlayerIndex;
@@ -71,7 +71,7 @@ public class Map4Listener extends AnimListener {
     Timer ghostTimerMove = new Timer(500, e -> handleGhostMove());
     boolean pause = false;
     int lives = 3;
-    static Map4 map5 = new Map4();
+    static Map4 map5;
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {

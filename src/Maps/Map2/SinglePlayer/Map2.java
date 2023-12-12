@@ -29,7 +29,6 @@ public class Map2 extends JFrame {
         animator.start();
 
         setTitle("Maze");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 400);
         setResizable(false);
         setLocationRelativeTo(null);
