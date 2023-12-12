@@ -3,6 +3,7 @@ package Maps.Map2.Multiplayer;
 import Core.AnimListener;
 import Core.Directions;
 import Core.Player;
+import Core.Utils;
 import Core.texture.TextureReader;
 import com.sun.opengl.util.GLUT;
 import javax.media.opengl.GL;
@@ -14,13 +15,14 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.BitSet;
 
+import static Core.Utils.drawString;
 import static java.awt.event.KeyEvent.*;
 import static java.awt.event.KeyEvent.VK_LEFT;
 
 public class Map2MultiPlayerListener extends AnimListener {
 
-    public static String userName1 = "";
-    public static String userName2 = "";
+    public static String userName1 = Utils.getPreLastUser();
+    public static String userName2 = Utils.getLastUser();
     String[] textureNames = {"Maps//Map2.png", "Player.png", "Player2.png"};
     TextureReader.Texture[] texture = new TextureReader.Texture[textureNames.length];
     int[] textures = new int[textureNames.length];
@@ -177,22 +179,32 @@ public class Map2MultiPlayerListener extends AnimListener {
         player1.Draw(gl, textures[1]);
         player2.Draw(gl, textures[2]);
         gl.glPopMatrix();
-
         try {
-            // Set the color before drawing the string
-//            gl.glColor3f(1.0f, 0.0f, 0.0f); // Red color
-
-            GLUT glt = new GLUT();
-
-            // Set the raster position
-            gl.glRasterPos2i(350, 350);
-
-            // Draw the string with the updated color
-            glt.glutBitmapString(5, "Time: " + time);
-            gl.glFlush();
+            drawString(gl, 8, 8, "Time: " + time);
+            //drawString(gl, 8, 40, "Lives: " + lives);
+            //drawString(gl, 8, 72, "Score: " + score);
+            drawString(gl, 465, 370, "Player1 :");
+            drawString(gl, 465, 340, userName1);
+            drawString(gl, 465, 280, "Player2 :");
+            drawString(gl, 465, 250, userName2);
         } catch (GLException e) {
             System.out.println(e.getMessage());
         }
+//        try {
+//            // Set the color before drawing the string
+////            gl.glColor3f(1.0f, 0.0f, 0.0f); // Red color
+//
+//            GLUT glt = new GLUT();
+//
+//            // Set the raster position
+//            gl.glRasterPos2i(350, 350);
+//
+//            // Draw the string with the updated color
+//            glt.glutBitmapString(5, "Time: " + time);
+//            gl.glFlush();
+//        } catch (GLException e) {
+//            System.out.println(e.getMessage());
+//        }
     }
 
     public void DrawBackground(GL gl) {
