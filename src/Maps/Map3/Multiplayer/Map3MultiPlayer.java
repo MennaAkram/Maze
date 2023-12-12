@@ -28,7 +28,6 @@ public class Map3MultiPlayer extends JFrame {
         animator.start();
 
         setTitle("Maze");
-
         setSize(600, 400);
         setResizable(false);
         setLocationRelativeTo(null);

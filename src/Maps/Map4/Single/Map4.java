@@ -3,14 +3,15 @@ package Maps.Map4.Single;
 import Pages.Home.HomePage;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
+
 import javax.media.opengl.GLCanvas;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 
 public class Map4 extends JFrame {
-        GLCanvas glcanvas;
-        static Animator animator;
+    GLCanvas glcanvas;
+    static Animator animator;
     Map4Listener listener = new Map4Listener();
 
     public static void main(String[] args) {
@@ -29,7 +30,6 @@ public class Map4 extends JFrame {
         listener.frame = this;
 
         setTitle("Maze");
-
         setSize(600, 400);
         setResizable(false);
         setLocationRelativeTo(null);
