@@ -16,6 +16,8 @@ import java.util.BitSet;
 import static java.awt.event.KeyEvent.*;
 
 public class Map4Listener extends AnimListener {
+    long startTime;
+    long elapsedTime;
     int win = 0;
     String gameAudio = "src/music/music.wav";
     String[] textureNames = {"Maps//Map4.png", "Player.png" };
@@ -74,6 +76,8 @@ public class Map4Listener extends AnimListener {
         gl.glEnable(GL.GL_TEXTURE_2D);
         gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
         gl.glGenTextures(textureNames.length, textures, 0);
+
+
         GLUT glut = new GLUT();
         for (int i = 0; i < textureNames.length; i++) {
             try {
@@ -109,6 +113,8 @@ public class Map4Listener extends AnimListener {
                 }
             }
         }
+        startTime = System.currentTimeMillis();
+
 
     }
 
@@ -123,12 +129,14 @@ public class Map4Listener extends AnimListener {
         DrawBackground(gl);
         gl.glPopMatrix();
 
-
         animationPlayerIndex = animationPlayerIndex % 4;
 
         handleKeyPress();
 
         gl.glPushMatrix();
+
+        // Draw timer
+
         gl.glTranslated(135, 385, 0);
         gl.glScaled(1, 1.15, 1);
         gl.glRotated(-90, 0, 0, 1);
@@ -143,8 +151,11 @@ public class Map4Listener extends AnimListener {
 //                }
 //            }
 //        }
+        elapsedTime = System.currentTimeMillis() - startTime;
+        drawTimer(gl);
         player.Draw(gl,textures[1]);
         gl.glPopMatrix();
+
 
     }
 
@@ -168,6 +179,35 @@ public class Map4Listener extends AnimListener {
 
         gl.glDisable(GL.GL_BLEND);
     }
+    // ... (previous code)
+
+    private void drawTimer(GL gl) {
+        gl.glPushMatrix();
+        gl.glLoadIdentity();
+
+        // Set color to white
+        gl.glColor3f(1.0f, 1.0f, 1.0f);
+
+        // Set font style
+        GLUT glut = new GLUT();
+
+        // Convert milliseconds to seconds
+        long seconds = elapsedTime / 1000;
+
+        // Convert seconds to MM:SS format
+        String timerText = String.format("%02d:%02d", seconds / 60, seconds % 60);
+
+        // Move to the specified position
+        gl.glRasterPos2d(0.8, 0.9); // Adjust position as needed
+
+        // Draw timer text using glutBitmapString
+        glut.glutBitmapString(GLUT.BITMAP_HELVETICA_18, timerText);
+
+        gl.glPopMatrix();
+    }
+
+// ... (remaining code)
+
 
     @Override
     public void reshape(GLAutoDrawable glAutoDrawable, int i, int i1, int i2, int i3) {
@@ -226,6 +266,8 @@ public class Map4Listener extends AnimListener {
             }
         }
     }
+
+
 
     @Override
     public void keyTyped(KeyEvent e) {
