@@ -13,14 +13,13 @@ public class Map2 extends JFrame {
 
     GLCanvas glcanvas;
     static Animator animator;
+
     public static void main(String[] args) {
         new Map2();
     }
 
     public Map2() {
-        //GLCanvas glcanvas;
-        //Animator animator;
-
+        Map2Listener.map2 = this;
         Map2Listener listener = new Map2Listener();
         glcanvas = new GLCanvas();
         glcanvas.addGLEventListener(listener);
@@ -31,7 +30,6 @@ public class Map2 extends JFrame {
         animator.start();
 
         setTitle("Maze");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 400);
         setResizable(false);
         setLocationRelativeTo(null);

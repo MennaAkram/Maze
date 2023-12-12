@@ -17,8 +17,6 @@ public class Map2MultiPlayer extends JFrame {
     }
 
     public Map2MultiPlayer() {
-        //GLCanvas glcanvas;
-        //Animator animator;
 
         Map2MultiPlayerListener listener = new Map2MultiPlayerListener();
         glcanvas = new GLCanvas();
