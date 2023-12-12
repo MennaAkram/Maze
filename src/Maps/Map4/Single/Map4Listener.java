@@ -2,7 +2,9 @@ package Maps.Map4.Single;
 
 import Core.*;
 import Core.texture.TextureReader;
+import Pages.ChooseLevel.Single.ChooseLevel;
 import Pages.Lose.Lose;
+import Pages.win.Win;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -11,14 +13,21 @@ import javax.media.opengl.glu.GLU;
 import javax.swing.*;
 import javax.swing.Timer;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+
+
 import static Core.Utils.*;
+import static Maps.Map1.single.Map1Listener.AddHighScore;
+import static Maps.Map1.single.Map1Listener.ReadHighScore;
 import static java.awt.event.KeyEvent.*;
 
 public class Map4Listener extends AnimListener {
-    String[] textureNames = {"Ghost1.png" ,"Ghost2.png" ,"Ghost3.png" ,"Ghost4.png", "Maps//Map4.png", "Player.png"};
+    JFrame frame =null;
+    String[] textureNames = {"Ghost1.png" ,"Ghost2.png" ,"Ghost3.png" ,"Ghost4.png", "Maps//Map4.png", "Player.png",  "Star 2.png"};
     TextureReader.Texture[] texture = new TextureReader.Texture[textureNames.length];
     int[] textures = new int[textureNames.length];
     int animationPlayerIndex;
@@ -71,7 +80,9 @@ public class Map4Listener extends AnimListener {
     Timer ghostTimerMove = new Timer(500, e -> handleGhostMove());
     boolean pause = false;
     int lives = 3;
-    static Map4 map5;
+    ArrayList<BounceBalls> balls = new ArrayList<>(5);
+    int score;
+    int highScore = ReadHighScore();
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
@@ -109,6 +120,7 @@ public class Map4Listener extends AnimListener {
         initGhost();
         timer.start();
         ghostTimerMove.start();
+        addBalls();
     }
 
     @Override
@@ -126,14 +138,21 @@ public class Map4Listener extends AnimListener {
 
         handlePlayerMove();
         handleLose();
+        handleBallsCollision();
 
         gl.glPushMatrix();
         gl.glTranslated(135, 385, 0);
         gl.glScaled(0.95, 1.1, 1);
         gl.glRotated(-90, 0, 0, 1);
         player.Draw(gl, textures[5]);
+        DrawBalles(gl);
         drawGhost(gl);
         gl.glPopMatrix();
+        if (score > highScore) {
+            AddHighScore(score);
+            highScore = ReadHighScore();
+        }
+        handelWinning();
         try {
             drawString(gl, 8, 8, "Time: " + time);
             drawString(gl, 8, 40, "Lives: " + lives);
@@ -192,25 +211,25 @@ public class Map4Listener extends AnimListener {
             }
             case UP -> {
                 if (player.i - 1 < 0) return;
-                if (map[player.i - 1][player.j] == 1) {
+                if (map[player.i - 1][player.j] == 1 || map[player.i - 1][player.j] == 2) {
                     player.moveUP();
                 }
             }
             case DOWN -> {
                 if (player.i + 1 >= col) return;
-                if (map[player.i + 1][player.j] == 1) {
+                if (map[player.i + 1][player.j] == 1 || map[player.i + 1][player.j] == 2) {
                     player.moveDown();
                 }
             }
             case RIGHT -> {
                 if (player.j + 1 >= row) return;
-                if (map[player.i][player.j + 1] == 1) {
+                if (map[player.i][player.j + 1] == 1 || map[player.i][player.j + 1] == 2) {
                     player.moveRight();
                 }
             }
             case LEFT -> {
                 if (player.j - 1 < 0) return;
-                if (map[player.i][player.j - 1] == 1) {
+                if (map[player.i][player.j - 1] == 1 || map[player.i][player.j - 1] == 2) {
                     player.moveLeft();
                 }
             }
@@ -220,13 +239,20 @@ public class Map4Listener extends AnimListener {
     private void handleLose() {
         if (player.i == ghost.i && player.j == ghost.j) {
             if (lives == 1) {
-                map5.dispose();
+                frame.dispose();
                 new Lose().setVisible(true);
-                map5.dispose();
             } else {
                 lives--;
                 resetPlayer(map, row, col, player);
             }
+        }
+    }
+
+    private void handelWinning() {
+        if ((map[player.i][player.j] == 2)) { // Winning
+            frame.dispose();
+            new Win().setVisible(true);
+            ChooseLevel.enable = true;
         }
     }
 
@@ -292,5 +318,66 @@ public class Map4Listener extends AnimListener {
 
     public boolean isKeyPressed(final int keyCode) {
         return keyBits.get(keyCode);
+    }
+
+    private void addBalls() {
+        ArrayList<Pair> validPositions = new ArrayList<>();
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (map[i][j] == 1) {
+                    validPositions.add(new Pair(i, j));
+                }
+            }
+        }
+
+        for (int i = 0; i < 5; i++) {
+            Pair item = validPositions.get(random.nextInt(validPositions.size()));
+            balls.add(new BounceBalls(item.i, item.j));
+            validPositions.remove(item);
+        }
+    }
+
+
+    private void handleBallsCollision() {
+        BounceBalls ballToRemove = null;
+        for (BounceBalls ball : balls) {
+            if (player.i == ball.i && player.j == ball.j) {
+                ballToRemove = ball;
+                score = score + 10;
+                System.out.println(score);
+                break;
+            }
+        }
+        if (ballToRemove != null) {
+            balls.remove(ballToRemove);
+        }
+    }
+
+    public static void AddHighScore(int score) {
+        try (FileWriter f = new FileWriter("Score.txt", false);
+             Scanner input = new Scanner(new File("Score.txt"))) {
+            int highScore = input.hasNext() ? input.nextInt() : 0;
+            if (score > highScore) highScore = score;
+            f.write(highScore + "");
+            f.flush();
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    }
+
+    public static int ReadHighScore() {
+        try (Scanner input = new Scanner(new File("Score.txt"));) {
+            return (input.hasNext()) ? input.nextInt() : 0;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public void DrawBalles(GL gl) {
+        for (BounceBalls ball : balls) {
+            ball.Draw(gl, textures[6]);
+        }
     }
 }

@@ -11,7 +11,7 @@ import java.awt.*;
 import static Core.Utils.playMusic;
 
 public class HomePage extends JFrame {
-    static Clip voice;
+    public static Clip voice;
 
     public static void main(String[] args) {
         new HomePage();
@@ -22,7 +22,9 @@ public class HomePage extends JFrame {
         JButton start = new JButton();
         JButton exit = new JButton();
         JButton help = new JButton();
+//        JLabel jLabel2 = new JLabel();
 
+//        jLabel2.setIcon(new javax.swing.ImageIcon("src\\Assets\\Home.png"));
         start.setFont(new java.awt.Font("Maiden Orange", Font.PLAIN, 32)); // NOI18N
         start.setText("Start");
         start.setBackground(new Color(217, 217, 217));
@@ -48,16 +50,16 @@ public class HomePage extends JFrame {
         exit.setBounds(225, 280, 150, 40);
 
         GLCanvas glcanvas;
-        Animator animator;
+//        Animator animator;
 
         HomePageGlEventListener listener = new HomePageGlEventListener();
         glcanvas = new GLCanvas();
         glcanvas.addGLEventListener(listener);
         glcanvas.addKeyListener(listener);
         getContentPane().add(glcanvas, BorderLayout.CENTER);
-        animator = new FPSAnimator(24);
-        animator.add(glcanvas);
-        animator.start();
+//        animator = new FPSAnimator(12);
+//        animator.add(glcanvas);
+//        animator.start();
 
         setTitle("Maze");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -133,8 +133,9 @@ public class Lose extends javax.swing.JFrame {
     public void processWindowEvent(final WindowEvent e) {
         super.processWindowEvent(e);
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+            voice.stop();
             new HomePage().setVisible(true);
-//            HomePage.voice.start();
+            HomePage.voice.start();
         }
     }
 }

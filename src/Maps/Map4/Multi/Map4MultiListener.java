@@ -14,6 +14,8 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.BitSet;
 
+import static Core.Utils.drawString;
+import static Core.Utils.resetPlayer;
 import static java.awt.event.KeyEvent.*;
 
 public class Map4MultiListener extends AnimListener {
@@ -66,6 +68,8 @@ public class Map4MultiListener extends AnimListener {
     int time;
     Timer timer = new Timer(1000, e -> time++);
     boolean pause;
+    int lives = 3;
+
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
@@ -97,24 +101,8 @@ public class Map4MultiListener extends AnimListener {
             }
         }
 
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                if (map[i][j] == -1) {
-                    player1.i = i;
-                    player1.j = j;
-                    player1.updateXY();
-                }
-            }
-        }
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                if (map[i][j] == -1) {
-                    player2.i = i;
-                    player2.j = j;
-                    player2.updateXY();
-                }
-            }
-        }
+        resetPlayer(map, row, col, player1);
+        resetPlayer(map, row, col, player2);
         timer.start();
     }
 
@@ -133,6 +121,7 @@ public class Map4MultiListener extends AnimListener {
 
         handlePlayer1Move();
         handlePlayer2Move();
+//        handleLose();
 
         gl.glPushMatrix();
         gl.glTranslated(135, 385, 0);
@@ -143,17 +132,8 @@ public class Map4MultiListener extends AnimListener {
         gl.glPopMatrix();
 
         try {
-            // Set the color before drawing the string
-//            gl.glColor3f(1.0f, 0.0f, 0.0f); // Red color
-
-            GLUT glt = new GLUT();
-
-            // Set the raster position
-            gl.glRasterPos2i(350, 350);
-
-            // Draw the string with the updated color
-            glt.glutBitmapString(5, "Time: " + time);
-            gl.glFlush();
+           drawString(gl, 8,8, "Time: " + time);
+           drawString(gl, 8,8, "Lives: " + lives);
         } catch (GLException e) {
             System.out.println(e.getMessage());
         }
