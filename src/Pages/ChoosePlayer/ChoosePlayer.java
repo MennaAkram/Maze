@@ -19,11 +19,11 @@ public class ChoosePlayer extends JFrame {
     public ChoosePlayer() {
         JButton single = new JButton();
         JButton multi = new JButton();
+        JButton back = new JButton();
 
         single.setFont(new java.awt.Font("Maiden Orange", Font.PLAIN, 32)); // NOI18N
         single.setText("Single Player");
         single.setBackground(new Color(217, 217, 217));
-
         single.addActionListener(evt -> singleActionPerformed());
         getContentPane().add(single);
         single.setBounds(110, 160, 180, 40);
@@ -31,10 +31,16 @@ public class ChoosePlayer extends JFrame {
         multi.setFont(new java.awt.Font("Maiden Orange", Font.PLAIN, 32)); // NOI18N
         multi.setText("Multi Player");
         multi.setBackground(new Color(217, 217, 217));
-
         multi.addActionListener(evt -> multiActionPerformed());
         getContentPane().add(multi);
         multi.setBounds(300, 160, 180, 40);
+
+        back.setFont(new Font("Maiden Orange", Font.PLAIN, 32)); // NOI18N
+        back.setText("Back");
+        back.setBackground(new Color(217, 217, 217));
+        back.addActionListener(evt -> backActionPerformed());
+        getContentPane().add(back);
+        back.setBounds(225, 280, 150, 40);
 
         GLCanvas glcanvas;
         Animator animator;
@@ -64,6 +70,11 @@ public class ChoosePlayer extends JFrame {
     private void multiActionPerformed() {
         this.dispose();
         new MultiPlayerInstructions().setVisible(true);
+    }
+
+    private void backActionPerformed() {
+        this.dispose();
+        new HomePage().setVisible(true);
     }
 
     public void processWindowEvent(final WindowEvent e) {

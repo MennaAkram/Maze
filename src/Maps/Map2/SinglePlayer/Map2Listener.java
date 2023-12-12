@@ -139,15 +139,15 @@ public class Map2Listener extends AnimListener {
 
         gl.glPushMatrix();
         gl.glTranslated(135, 385, 0);
-        gl.glScaled(0.95, 1.1, 1);
+        gl.glScaled(1, 1.17, 1);
         gl.glRotated(-90, 0, 0, 1);
-        player.Draw(gl, textures[1]);
+        player.Draw(gl, textures[5]);
         drawGhost(gl);
         gl.glPopMatrix();
         try {
             drawString(gl, 8, 8, "Time: " + time);
             drawString(gl, 8, 40, "Lives: " + lives);
-            drawString(gl, 72, 72, "Score: " + score);
+            drawString(gl, 8, 72, "Score: " + score);
         } catch (GLException e) {
             System.out.println(e.getMessage());
         }
