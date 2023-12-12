@@ -1,4 +1,4 @@
-package Maps.Map3;
+package Maps.Map3.SinglePlayer;
 
 import Core.AnimListener;
 import Core.Directions;
@@ -16,6 +16,8 @@ import static java.awt.event.KeyEvent.*;
 import static java.awt.event.KeyEvent.VK_LEFT;
 
 public class Map3Listener extends AnimListener {
+
+    public static String userName = "";
     String[] textureNames = {"Maps//Map3.png", "Player.png"};
     TextureReader.Texture[] texture = new TextureReader.Texture[textureNames.length];
     int[] textures = new int[textureNames.length];
