@@ -17,6 +17,9 @@ import static java.awt.event.KeyEvent.*;
 import static java.awt.event.KeyEvent.VK_LEFT;
 
 public class Map3MultiPlayerListener extends AnimListener {
+
+    public static String userName1 = "";
+    public static String userName2 = "";
     String[] textureNames = {"Maps//Map3.png", "Player.png", "22.png"};
     TextureReader.Texture[] texture = new TextureReader.Texture[textureNames.length];
     int[] textures = new int[textureNames.length];

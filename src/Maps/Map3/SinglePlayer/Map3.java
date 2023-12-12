@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Map3 extends JFrame {
+
     public static void main(String[] args) {
 //        for (int i = 0; i < 10; i++) {
 //            System.out.println(i%4);
