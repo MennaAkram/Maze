@@ -11,13 +11,15 @@ import java.awt.event.WindowEvent;
 
 public class Map2 extends JFrame {
 
+    GLCanvas glcanvas;
+    static Animator animator;
     public static void main(String[] args) {
         new Map2();
     }
 
     public Map2() {
-        GLCanvas glcanvas;
-        Animator animator;
+        //GLCanvas glcanvas;
+        //Animator animator;
 
         Map2Listener listener = new Map2Listener();
         glcanvas = new GLCanvas();
