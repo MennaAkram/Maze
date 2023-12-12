@@ -44,8 +44,6 @@ public class Player {
         gl.glDisable(GL.GL_BLEND);
     }
 
-
-
     public void moveUP() {
         direction = Directions.UP;
         x -= step;

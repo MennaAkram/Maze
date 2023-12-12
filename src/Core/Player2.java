@@ -1,4 +1,5 @@
 package Core;
+
 import javax.media.opengl.GL;
 
 public class Player2 {
@@ -41,29 +42,30 @@ public class Player2 {
     }
 
     public void moveU() {
+    public void moveUP() {
         direction = Directions.W;
         x -= step;
         updateIJ();
     }
 
     public void moveD() {
+    public void moveDown() {
         direction = Directions.S;
         x += step;
         updateIJ();
     }
 
     public void moveR() {
+    public void moveRight() {
         direction = Directions.D;
         y += step;
         updateIJ();
     }
 
+    public void moveLeft() {
     public void moveL() {
         direction = Directions.A;
         y -= step;
         updateIJ();
     }
-
-
-
 }

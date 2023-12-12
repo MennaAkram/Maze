@@ -1,5 +1,6 @@
 package Pages.Home;
 
+import Maps.Map4.Sounds;
 import Pages.ChoosePlayer.ChoosePlayer;
 import Pages.HowToPlay.HowToPlay;
 import com.sun.opengl.util.Animator;
