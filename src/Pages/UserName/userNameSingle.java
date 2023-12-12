@@ -53,8 +53,7 @@ public class userNameSingle extends javax.swing.JFrame {
         Player = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(0, 0, 0));
+        getContentPane().setBackground(new java.awt.Color(0, 0, 0));
 
         DoneBTN.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         DoneBTN.setText("Done");
@@ -78,6 +77,7 @@ public class userNameSingle extends javax.swing.JFrame {
 
         Player.setFont(new java.awt.Font("Stencil", 0, 24)); // NOI18N
         Player.setText("Player ");
+
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField1.addActionListener(new java.awt.event.ActionListener() {

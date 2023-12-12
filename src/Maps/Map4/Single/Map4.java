@@ -11,6 +11,7 @@ import java.awt.event.WindowEvent;
 public class Map4 extends JFrame {
         GLCanvas glcanvas;
         static Animator animator;
+    Map4Listener listener = new Map4Listener();
 
     public static void main(String[] args) {
         new Map4();
@@ -18,7 +19,7 @@ public class Map4 extends JFrame {
 
     public Map4() {
 
-        Map4Listener listener = new Map4Listener();
+
         glcanvas = new GLCanvas();
         glcanvas.addGLEventListener(listener);
         glcanvas.addKeyListener(listener);
@@ -26,6 +27,7 @@ public class Map4 extends JFrame {
         animator = new FPSAnimator(18);
         animator.add(glcanvas);
         animator.start();
+        listener.frame = this;
 
         setTitle("Maze");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
