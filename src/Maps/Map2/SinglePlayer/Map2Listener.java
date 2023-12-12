@@ -74,6 +74,7 @@ public class Map2Listener extends AnimListener {
     Ghost ghost;
     AStarAlgorithm aStarAlgorithm;
     int time;
+    int score;
     Timer timer = new Timer(1000, e -> time++);
     Timer ghostTimerMove = new Timer(500, e -> handleGhostMove());
     boolean pause = false;
@@ -146,6 +147,7 @@ public class Map2Listener extends AnimListener {
         try {
             drawString(gl, 8, 8, "Time: " + time);
             drawString(gl, 8, 40, "Lives: " + lives);
+            drawString(gl, 72, 72, "Score: " + score);
         } catch (GLException e) {
             System.out.println(e.getMessage());
         }
