@@ -5,7 +5,6 @@ import Core.AnimListener;
 import Core.Directions;
 import Core.Player;
 import Core.texture.*;
-import Maps.Map4.Single.Map4;
 import Pages.Lose.Lose;
 
 import javax.media.opengl.GL;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 import java.util.Random;
-
+import static Core.Utils.DrawBackground;
 import static Core.Utils.drawString;
 import static Core.Utils.resetPlayer;
 import static java.awt.event.KeyEvent.*;
@@ -28,10 +27,10 @@ import static java.awt.event.KeyEvent.VK_LEFT;
 public class Map2Listener extends AnimListener {
 
     public static String userName = "";
-    String[] textureNames = {"Maps//Map2.png", "Player.png"};
+    String[] textureNames = {"Ghost1.png" ,"Ghost2.png" ,"Ghost3.png" ,"Ghost4.png","Maps//Map2.png", "Player.png"};
     TextureReader.Texture[] texture = new TextureReader.Texture[textureNames.length];
     int[] textures = new int[textureNames.length];
-    int animationPlayerIndex = 1;
+    int animationPlayerIndex;
     int[][] map = new int[][]{
             {0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
@@ -79,11 +78,13 @@ public class Map2Listener extends AnimListener {
     Timer ghostTimerMove = new Timer(500, e -> handleGhostMove());
     boolean pause = false;
     int lives = 3;
-    static Map2 map5 = new Map2();
+    static Map2 map2 = new Map2();
 
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
+        aStarAlgorithm = new AStarAlgorithm(map);
+
         GL gl = glAutoDrawable.getGL();
         gl.glClearColor(0.16f, 0.52f, 0.52f, 1.0f);
 
@@ -127,7 +128,7 @@ public class Map2Listener extends AnimListener {
         gl.glPushMatrix();
         gl.glTranslated(130, 10, 0);
         gl.glScaled(0.55, 0.95, 1);
-        DrawBackground(gl);
+        DrawBackground(gl, textures[4]);
         gl.glPopMatrix();
 
         animationPlayerIndex = animationPlayerIndex % 4;
@@ -148,27 +149,6 @@ public class Map2Listener extends AnimListener {
         } catch (GLException e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    public void DrawBackground(GL gl) {
-        gl.glEnable(GL.GL_BLEND);    // Turn Blending On
-        gl.glBindTexture(GL.GL_TEXTURE_2D, textures[0]);
-        gl.glBegin(GL.GL_QUADS);
-        // Front Face
-        gl.glTexCoord2f(0.0f, 0.0f);
-        gl.glVertex3f(0.0f, 0.0f, -1.0f);
-
-        gl.glTexCoord2f(1.0f, 0.0f);
-        gl.glVertex3f(600.0f, 0.0f, -1.0f);
-
-        gl.glTexCoord2f(1.0f, 1.0f);
-        gl.glVertex3f(600.0f, 400.0f, -1.0f);
-
-        gl.glTexCoord2f(0.0f, 1.0f);
-        gl.glVertex3f(0.0f, 400.0f, -1.0f);
-        gl.glEnd();
-
-        gl.glDisable(GL.GL_BLEND);
     }
 
     @Override
@@ -250,9 +230,9 @@ public class Map2Listener extends AnimListener {
     private void handleLose() {
         if (player.i == ghost.i && player.j == ghost.j) {
             if (lives == 1) {
-                map5.dispose();
+                map2.dispose();
                 new Lose().setVisible(true);
-                map5.dispose();
+                map2.dispose();
             } else {
                 lives--;
                 resetPlayer(map, row, col, player);

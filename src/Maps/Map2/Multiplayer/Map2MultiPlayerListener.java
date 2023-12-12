@@ -4,7 +4,6 @@ import Core.AnimListener;
 import Core.Directions;
 import Core.Player;
 import Core.texture.TextureReader;
-import Maps.Map4.Multi.Map4Multi;
 import com.sun.opengl.util.GLUT;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -22,7 +21,7 @@ public class Map2MultiPlayerListener extends AnimListener {
 
     public static String userName1 = "";
     public static String userName2 = "";
-    String[] textureNames = {"Maps//Map2.png", "Player.png", "22.png"};
+    String[] textureNames = {"Maps//Map2.png", "Player.png", "Player2.png"};
     TextureReader.Texture[] texture = new TextureReader.Texture[textureNames.length];
     int[] textures = new int[textureNames.length];
     int animationPlayerIndex = 1;
@@ -196,7 +195,6 @@ public class Map2MultiPlayerListener extends AnimListener {
         }
     }
 
-
     public void DrawBackground(GL gl) {
         gl.glEnable(GL.GL_BLEND);    // Turn Blending On
         gl.glBindTexture(GL.GL_TEXTURE_2D, textures[0]);
@@ -217,6 +215,9 @@ public class Map2MultiPlayerListener extends AnimListener {
 
         gl.glDisable(GL.GL_BLEND);
     }
+
+
+
 
     @Override
     public void reshape(GLAutoDrawable glAutoDrawable, int i, int i1, int i2, int i3) {
