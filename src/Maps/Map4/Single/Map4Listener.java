@@ -255,7 +255,9 @@ public class Map4Listener extends AnimListener {
         if ((map[player.i][player.j] == 2)) { // Winning
             frame.dispose();
             new Win().setVisible(true);
-            ChooseLevel.enable = true;
+            ChooseLevel.enable2 = true;
+            ChooseLevel.enable3 = true;
+            ChooseLevel.enable4 = true;
         }
     }
 

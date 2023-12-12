@@ -228,9 +228,6 @@ public class Map2MultiPlayerListener extends AnimListener {
         gl.glDisable(GL.GL_BLEND);
     }
 
-
-
-
     @Override
     public void reshape(GLAutoDrawable glAutoDrawable, int i, int i1, int i2, int i3) {
     }

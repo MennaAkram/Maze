@@ -1,8 +1,12 @@
 package Pages.ChooseLevel.Multi;
 
+import Maps.Map1.multi.Map1_multi;
 import Maps.Map1.single.Map1;
+import Maps.Map2.Multiplayer.Map2MultiPlayer;
 import Maps.Map2.SinglePlayer.Map2;
+import Maps.Map3.Multiplayer.Map3MultiPlayer;
 import Maps.Map3.SinglePlayer.Map3;
+import Maps.Map4.Multi.Map4Multi;
 import Maps.Map4.Single.Map4;
 import Pages.Home.HomePage;
 import com.sun.opengl.util.Animator;
@@ -79,22 +83,22 @@ public class ChooseLevelMulti extends JFrame {
 
     private void level1ActionPerformed() {
         this.dispose();
-        new Map1().setVisible(true);
+        new Map1_multi().setVisible(true);
     }
 
     private void level2ActionPerformed() {
         this.dispose();
-        new Map2().setVisible(true);
+        new Map2MultiPlayer().setVisible(true);
     }
 
     private void level3ActionPerformed() {
         this.dispose();
-        new Map3().setVisible(true);
+        new Map3MultiPlayer().setVisible(true);
     }
 
     private void level4ActionPerformed() {
         this.dispose();
-        new Map4().setVisible(true);
+        new Map4Multi().setVisible(true);
     }
 
     public void processWindowEvent(final WindowEvent e) {

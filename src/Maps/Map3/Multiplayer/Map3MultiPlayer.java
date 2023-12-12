@@ -14,7 +14,8 @@ public class Map3MultiPlayer extends JFrame {
         new Map3MultiPlayer();
     }
 
-    public Map3MultiPlayer() throws UnsupportedAudioFileException, IOException {
+
+    public Map3MultiPlayer() {
         GLCanvas glcanvas;
         Animator animator;
 
