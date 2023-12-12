@@ -1,14 +1,16 @@
 package Maps.Map1.single;
 
+import Pages.Home.HomePage;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
 
 import javax.media.opengl.GLCanvas;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 
 public class Map1 extends JFrame {
-    public Map1(){
+    public Map1() {
         GLCanvas glcanvas;
         Animator animator;
 
@@ -17,19 +19,29 @@ public class Map1 extends JFrame {
         glcanvas.addGLEventListener(listener);
         glcanvas.addKeyListener(listener);
         getContentPane().add(glcanvas, BorderLayout.CENTER);
-        animator = new FPSAnimator(24);
+        animator = new FPSAnimator(18);
         animator.add(glcanvas);
         animator.start();
 
         setTitle("Maze");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 400);
         setLocationRelativeTo(null);
         setVisible(true);
         setFocusable(true);
         glcanvas.requestFocus();
     }
-    public static void main (String []args){
+
+    public void processWindowEvent(final WindowEvent e) {
+        super.processWindowEvent(e);
+
+        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+
+            new HomePage().setVisible(true);
+//            HomePage.voice.start();
+        }
+    }
+    public static void main(String[] args) {
         new Map1();
     }
+
 }

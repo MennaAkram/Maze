@@ -1,5 +1,6 @@
 package Pages.ChooseLevel;
 
+import Maps.Map1.single.Map1;
 import Maps.Map5.Single.Map5;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
@@ -10,6 +11,7 @@ import java.awt.*;
 
 public class ChooseLevel extends JFrame {
 
+    public static boolean enable = false;
     public static void main(String[] args) {
         new ChooseLevel();
     }
@@ -56,6 +58,7 @@ public class ChooseLevel extends JFrame {
         level5.setFont(new Font("Maiden Orange", Font.PLAIN, 32)); // NOI18N
         level5.setText("Level 5");
         level5.setBackground(new Color(217, 217, 217));
+        level5.setEnabled(enable);
 
         level5.addActionListener(evt -> level5ActionPerformed());
         getContentPane().add(level5);
@@ -84,7 +87,7 @@ public class ChooseLevel extends JFrame {
 
     private void level1ActionPerformed() {
         this.dispose();
-//        new ChooseLevel().setVisible(true);
+        new Map1().setVisible(true);
     }
 
     private void level2ActionPerformed() {
