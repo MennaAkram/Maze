@@ -2,8 +2,6 @@ package Maps.Map5.Single;
 
 import Core.*;
 import Core.texture.TextureReader;
-import com.sun.opengl.util.GLUT;
-
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLException;
@@ -13,14 +11,15 @@ import javax.swing.Timer;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.*;
-
+import static Core.Utils.DrawBackground;
+import static Core.Utils.drawString;
 import static java.awt.event.KeyEvent.*;
 
 public class Map5Listener extends AnimListener {
     String[] textureNames = {"Ghost1.png" ,"Ghost2.png" ,"Ghost3.png" ,"Ghost4.png", "Maps//Map5.png", "Player.png"};
     TextureReader.Texture[] texture = new TextureReader.Texture[textureNames.length];
     int[] textures = new int[textureNames.length];
-    int animationPlayerIndex = 1;
+    int animationPlayerIndex;
     int[][] map = new int[][]{
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0},
@@ -76,8 +75,6 @@ public class Map5Listener extends AnimListener {
         aStarAlgorithm = new AStarAlgorithm(map);
 
         GL gl = glAutoDrawable.getGL();
-
-
         gl.glLoadIdentity();
         gl.glOrtho(0, 600, 0, 400, 0, 1.0);
 
@@ -109,15 +106,6 @@ public class Map5Listener extends AnimListener {
         ghostTimerMove.start();
     }
 
-    private static void drawString(GL gl, int x, int y, String s) {
-        GLUT glt = new GLUT();
-        gl.glPushAttrib(GL.GL_CURRENT_BIT);
-        gl.glRasterPos2i(x, y);
-        gl.glColor3f(0, 0, 1); // BLUE
-        glt.glutBitmapString(5, s);
-        gl.glPopAttrib();
-    }
-
     @Override
     public void display(GLAutoDrawable glAutoDrawable) {
         GL gl = glAutoDrawable.getGL();
@@ -126,12 +114,12 @@ public class Map5Listener extends AnimListener {
         gl.glPushMatrix();
         gl.glTranslated(130, 10, 0);
         gl.glScaled(0.55, 0.95, 1);
-        DrawBackground(gl);
+        DrawBackground(gl, textures[4]);
         gl.glPopMatrix();
 
         animationPlayerIndex = animationPlayerIndex % 4;
 
-        handleKeyPress();
+        handlePlayerMove();
         handleLose();
 
         gl.glPushMatrix();
@@ -148,27 +136,6 @@ public class Map5Listener extends AnimListener {
         } catch (GLException e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    public void DrawBackground(GL gl) {
-        gl.glEnable(GL.GL_BLEND);    // Turn Blending On
-        gl.glBindTexture(GL.GL_TEXTURE_2D, textures[4]);
-        gl.glBegin(GL.GL_QUADS);
-        // Front Face
-        gl.glTexCoord2f(0.0f, 0.0f);
-        gl.glVertex3f(0.0f, 0.0f, -1.0f);
-
-        gl.glTexCoord2f(1.0f, 0.0f);
-        gl.glVertex3f(600.0f, 0.0f, -1.0f);
-
-        gl.glTexCoord2f(1.0f, 1.0f);
-        gl.glVertex3f(600.0f, 400.0f, -1.0f);
-
-        gl.glTexCoord2f(0.0f, 1.0f);
-        gl.glVertex3f(0.0f, 400.0f, -1.0f);
-        gl.glEnd();
-
-        gl.glDisable(GL.GL_BLEND);
     }
 
     @Override
@@ -193,14 +160,13 @@ public class Map5Listener extends AnimListener {
                 }
             }
         }
-
         Pair item = validPositions.get(random.nextInt(validPositions.size()));
         ghost = new Ghost(item.i, item.j);
     }
 
     public BitSet keyBits = new BitSet(256);
 
-    public void handleKeyPress() {
+    public void handlePlayerMove() {
         if (isKeyPressed(VK_UP)) {
             player.direction = Directions.UP;
         }
@@ -298,7 +264,6 @@ public class Map5Listener extends AnimListener {
         }
     }
 
-
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -333,14 +298,5 @@ public class Map5Listener extends AnimListener {
 
     public boolean isKeyPressed(final int keyCode) {
         return keyBits.get(keyCode);
-    }
-}
-
-class Pair {
-    int i, j;
-
-    public Pair(int i, int j) {
-        this.i = i;
-        this.j = j;
     }
 }
