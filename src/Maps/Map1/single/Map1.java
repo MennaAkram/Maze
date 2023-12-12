@@ -40,6 +40,7 @@ public class Map1 extends JFrame {
 //            HomePage.voice.start();
         }
     }
+
     public static void main(String[] args) {
         new Map1();
     }

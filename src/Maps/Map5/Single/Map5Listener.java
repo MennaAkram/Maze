@@ -2,6 +2,8 @@ package Maps.Map5.Single;
 
 import Core.*;
 import Core.texture.TextureReader;
+import Pages.Lose.Lose;
+
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLException;
@@ -11,8 +13,8 @@ import javax.swing.Timer;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.*;
-import static Core.Utils.DrawBackground;
-import static Core.Utils.drawString;
+
+import static Core.Utils.*;
 import static java.awt.event.KeyEvent.*;
 
 public class Map5Listener extends AnimListener {
@@ -100,7 +102,7 @@ public class Map5Listener extends AnimListener {
             }
         }
 
-        resetPlayer();
+        resetPlayer(map, row, col, player);
         initGhost();
         timer.start();
         ghostTimerMove.start();
@@ -216,22 +218,10 @@ public class Map5Listener extends AnimListener {
     private void handleLose() {
         if (player.i == ghost.i && player.j == ghost.j) {
             if (lives == 1) {
-                // TODO: LOSE
+                Player.lose = true;
             } else {
                 lives--;
-                resetPlayer();
-            }
-        }
-    }
-
-    private void resetPlayer() {
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                if (map[i][j] == -1) {
-                    player.i = i;
-                    player.j = j;
-                    player.updateXY();
-                }
+                resetPlayer(map, row, col, player);
             }
         }
     }

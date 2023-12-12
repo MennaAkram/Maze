@@ -2,21 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Core.WinLose;
+package Pages.Lose;
 
-import Maps.Map3.SinglePlayer.Map3;
+import Core.Player;
+import Pages.ChooseLevel.Single.ChooseLevel;
+import Pages.Home.HomePage;
 
-/**
- *
- * @author Ahmed Fouad
- */
+import java.awt.event.WindowEvent;
+
 public class Lose extends javax.swing.JFrame {
 
-    /**
-     * Creates new form NewJFrame
-     */
     public Lose() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -39,7 +37,7 @@ public class Lose extends javax.swing.JFrame {
         Restart.setText("Restart");
         Restart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RestartActionPerformed(evt);
+                RestartActionPerformed();
             }
         });
 
@@ -47,11 +45,11 @@ public class Lose extends javax.swing.JFrame {
         Menu.setText("Back to Menu");
         Menu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MenuActionPerformed(evt);
+                MenuActionPerformed();
             }
         });
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("E:\\Intellji\\MazeG\\src\\QUC8.gif")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon("src\\Assets\\QUC8.gif"));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -83,14 +81,13 @@ public class Lose extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void RestartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RestartActionPerformed
-        this.dispose();
-        new Map3().setVisible(true);
+    private void RestartActionPerformed() {
+        this.setVisible(true);
     }
 
-    private void MenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuActionPerformed
+    private void MenuActionPerformed() {
         this.dispose();
-        //new ChoosePlayer().setVisible(true);
+        new ChooseLevel().setVisible(true);
     }
 
     /**
@@ -122,11 +119,7 @@ public class Lose extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Lose().setVisible(true);
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> new Lose().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -134,4 +127,12 @@ public class Lose extends javax.swing.JFrame {
     private javax.swing.JButton Restart;
     private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
+
+    public void processWindowEvent(final WindowEvent e) {
+        super.processWindowEvent(e);
+        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+            new HomePage().setVisible(true);
+//            HomePage.voice.start();
+        }
+    }
 }

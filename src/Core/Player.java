@@ -7,6 +7,8 @@ public class Player {
     public static int step = 10;
     public float x, y;
     public int i, j;
+    public static boolean lose = false;
+
 
     public void updateXY() {
         x = (float) (i - 1) * step;

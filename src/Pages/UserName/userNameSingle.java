@@ -2,9 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Core.EnterUserName;
+package Pages.UserName;
 
 import Maps.Map3.SinglePlayer.Map3Listener;
+import Pages.ChooseLevel.Single.ChooseLevel;
+import Pages.ChoosePlayer.ChoosePlayer;
+import Pages.Home.HomePage;
+
 import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.io.*;
@@ -13,17 +17,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
-
-/**
- *
- * @author Ahmed Fouad
- */
 public class userNameSingle extends javax.swing.JFrame {
 
-    /**
-     * Creates new form userNameSingle
-     */
     public userNameSingle() {
 
         initComponents();
@@ -32,21 +27,13 @@ public class userNameSingle extends javax.swing.JFrame {
 
     public void processWindowEvent(final WindowEvent e) {
         super.processWindowEvent(e);
-
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-
-            // TODO for Menna
-            /* replace HomePage() With ChooseMode() {The window where the player choose to play Single or Multiplayer }
-             After Merging the Code
-             */
-            //new HomePage().setVisible(true);
-            //HomePage.voice.start();
             this.dispose();
+            new HomePage().setVisible(true);
         }
     }
 
     public void SaveUser(String s) {
-
         try (FileWriter f = new FileWriter("UsersList.txt", true);
              BufferedWriter b = new BufferedWriter(f);
              PrintWriter p = new PrintWriter(b);) {
@@ -74,7 +61,7 @@ public class userNameSingle extends javax.swing.JFrame {
         DoneBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
-                    DoneBTNActionPerformed(evt);
+                    DoneBTNActionPerformed();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -85,7 +72,7 @@ public class userNameSingle extends javax.swing.JFrame {
         BackBTN.setText("Back");
         BackBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BackBTNActionPerformed(evt);
+                BackBTNActionPerformed();
             }
         });
 
@@ -135,14 +122,13 @@ public class userNameSingle extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void BackBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackBTNActionPerformed
-        // TODO add your handling code here:
-        // ChoosePlayer.setVisible(true);
+    private void BackBTNActionPerformed() {
+        this.dispose();
+        new ChoosePlayer().setVisible(true);
     }
 
 
-    private void DoneBTNActionPerformed(java.awt.event.ActionEvent evt) throws IOException {//GEN-FIRST:event_DoneBTNActionPerformed
-        // TODO add your handling code here:
+    private void DoneBTNActionPerformed() throws IOException {
         if (jTextField1.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Enter your name", "Player", JOptionPane.WARNING_MESSAGE);
             return;
@@ -171,7 +157,7 @@ public class userNameSingle extends javax.swing.JFrame {
         } catch (IOException e) {
         }
         this.dispose();
-        //new ChooseMap().setVisible(true);
+        new ChooseLevel().setVisible(true);
 
     }
 
@@ -203,11 +189,7 @@ public class userNameSingle extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new userNameSingle().setVisible(true);
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> new userNameSingle().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

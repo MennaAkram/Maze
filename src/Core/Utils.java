@@ -31,6 +31,18 @@ public class Utils {
         gl.glDisable(GL.GL_BLEND);
     }
 
+    public static void resetPlayer(int[][] map, int n, int m, Player player) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (map[i][j] == -1) {
+                    player.i = i;
+                    player.j = j;
+                    player.updateXY();
+                }
+            }
+        }
+    }
+
     public static void drawString(GL gl, int x, int y, String s) {
         GLUT glt = new GLUT();
         gl.glPushAttrib(GL.GL_CURRENT_BIT);

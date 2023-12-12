@@ -1,13 +1,16 @@
-package Pages.ChooseLevel;
+package Pages.ChooseLevel.Single;
 
 import Maps.Map1.single.Map1;
+import Maps.Map3.SinglePlayer.Map3;
 import Maps.Map5.Single.Map5;
+import Pages.Home.HomePage;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
 
 import javax.media.opengl.GLCanvas;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 
 public class ChooseLevel extends JFrame {
 
@@ -97,7 +100,7 @@ public class ChooseLevel extends JFrame {
 
     private void level3ActionPerformed() {
         this.dispose();
-//        new ChooseLevel().setVisible(true);
+        new Map3().setVisible(true);
     }
 
     private void level4ActionPerformed() {
@@ -109,4 +112,13 @@ public class ChooseLevel extends JFrame {
         this.dispose();
         new Map5().setVisible(true);
     }
+
+    public void processWindowEvent(final WindowEvent e) {
+        super.processWindowEvent(e);
+        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+            new HomePage().setVisible(true);
+//            HomePage.voice.start();
+        }
+    }
+
 }

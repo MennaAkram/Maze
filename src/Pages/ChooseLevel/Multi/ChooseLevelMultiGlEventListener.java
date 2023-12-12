@@ -1,4 +1,4 @@
-package Pages.ChooseLevel;
+package Pages.ChooseLevel.Multi;
 
 import Core.AnimListener;
 import Core.texture.TextureReader;
@@ -9,7 +9,7 @@ import javax.media.opengl.glu.GLU;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
-public class ChooseLevelGlEventListener extends AnimListener {
+public class ChooseLevelMultiGlEventListener extends AnimListener {
 
     String textureName = "Back.png";
     TextureReader.Texture texture;

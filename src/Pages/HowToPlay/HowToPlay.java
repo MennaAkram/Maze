@@ -6,6 +6,7 @@ import com.sun.opengl.util.FPSAnimator;
 import javax.media.opengl.GLCanvas;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 
 public class HowToPlay extends JFrame {
 
@@ -74,6 +75,14 @@ public class HowToPlay extends JFrame {
     private void backActionPerformed() {
         this.dispose();
         new HomePage().setVisible(true);
+    }
+
+    public void processWindowEvent(final WindowEvent e) {
+        super.processWindowEvent(e);
+        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+            new HomePage().setVisible(true);
+//            HomePage.voice.start();
+        }
     }
 
 }

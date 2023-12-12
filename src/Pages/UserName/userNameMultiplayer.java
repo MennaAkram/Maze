@@ -2,10 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Core.EnterUserName;
+package Pages.UserName;
 
 import Maps.Map3.Multiplayer.Map3MultiPlayerListener;
-import Maps.Map3.SinglePlayer.Map3Listener;
+import Pages.ChooseLevel.Multi.ChooseLevelMulti;
+import Pages.ChoosePlayer.ChoosePlayer;
+import Pages.Home.HomePage;
 import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.io.*;
@@ -14,15 +16,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-/**
- *
- * @author Ahmed Fouad
- */
 public class userNameMultiplayer extends javax.swing.JFrame {
 
-    /**
-     * Creates new form userNameMultiplayer
-     */
     public userNameMultiplayer() {
         initComponents();
         setLocationRelativeTo(null);
@@ -30,16 +25,9 @@ public class userNameMultiplayer extends javax.swing.JFrame {
 
     public void processWindowEvent(final WindowEvent e) {
         super.processWindowEvent(e);
-
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-
-            // TODO for Menna
-            /* replace HomePage() With ChooseMode() {The window where the player choose to play Single or Multiplayer }
-             After Merging the Code
-             */
-            //new HomePage().setVisible(true);
-            //HomePage.voice.start();
             this.dispose();
+            new HomePage().setVisible(true);
         }
     }
 
@@ -54,8 +42,6 @@ public class userNameMultiplayer extends javax.swing.JFrame {
             i.printStackTrace();
         }
     }
-
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -83,7 +69,7 @@ public class userNameMultiplayer extends javax.swing.JFrame {
         DoneBTN.setText("Done");
         DoneBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DoneBTNActionPerformed(evt);
+                DoneBTNActionPerformed();
             }
         });
 
@@ -91,7 +77,7 @@ public class userNameMultiplayer extends javax.swing.JFrame {
         BackBTN.setText("Back");
         BackBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BackBTNActionPerformed(evt);
+                BackBTNActionPerformed();
             }
         });
 
@@ -148,9 +134,7 @@ public class userNameMultiplayer extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-
-
-    private void DoneBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoneBTNActionPerformed
+    private void DoneBTNActionPerformed() {
 
         if (Player2TextField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Enter Player 2 Name : ", "Player", JOptionPane.WARNING_MESSAGE);
@@ -186,17 +170,13 @@ public class userNameMultiplayer extends javax.swing.JFrame {
         }
 
         this.dispose();
-        //new ChooseMap_Mult().setVisible(true);
+        new ChooseLevelMulti().setVisible(true);
     }
 
-    private void BackBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackBTNActionPerformed
-
-
+    private void BackBTNActionPerformed() {
         this.dispose();
-        //new PlayerChoose().setVisible(true);
+        new ChoosePlayer().setVisible(true);
     }
-
-
 
     /**
      * @param args the command line arguments
@@ -226,11 +206,7 @@ public class userNameMultiplayer extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new userNameMultiplayer().setVisible(true);
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> new userNameMultiplayer().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

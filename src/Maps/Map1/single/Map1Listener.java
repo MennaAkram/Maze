@@ -1,12 +1,9 @@
 package Maps.Map1.single;
 
-import Core.AnimListener;
-import Core.BounceBalls;
-import Core.Directions;
-import Core.Player;
+import Core.*;
 import Core.texture.TextureReader;
-import Pages.ChooseLevel.ChooseLevel;
-
+import static Core.Utils.DrawBackground;
+import Pages.ChooseLevel.Single.ChooseLevel;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;
@@ -19,6 +16,7 @@ import java.util.BitSet;
 import java.util.Random;
 import java.util.Scanner;
 
+import static Core.Utils.resetPlayer;
 import static java.awt.event.KeyEvent.*;
 
 public class Map1Listener extends AnimListener {
@@ -56,6 +54,8 @@ public class Map1Listener extends AnimListener {
     Player player = new Player();
     Random random = new Random();
     ArrayList<BounceBalls> balls = new ArrayList<>(5);
+    int score;
+    int highScore = ReadHighScore();
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
@@ -87,32 +87,8 @@ public class Map1Listener extends AnimListener {
             }
         }
 
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                if (map[i][j] == -1) {
-                    player.i = i;
-                    player.j = j;
-                    player.updateXY();
-                }
-            }
-        }
-
-        ArrayList<Pair> validPositions = new ArrayList<>();
-
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                if (map[i][j] == 1) {
-                    validPositions.add(new Pair(i, j));
-                }
-            }
-        }
-
-
-        for (int i = 0; i < 5; i++) {
-            Pair item = validPositions.get(random.nextInt(validPositions.size()));
-            balls.add(new BounceBalls(item.i, item.j));
-            validPositions.remove(item);
-        }
+        resetPlayer(map, row, col, player);
+        addBalls();
     }
 
     @Override
@@ -123,7 +99,7 @@ public class Map1Listener extends AnimListener {
         gl.glPushMatrix();
         gl.glTranslated(130, 10, 0);
         gl.glScaled(0.55, 0.95, 1);
-        DrawBackground(gl);
+        DrawBackground(gl, textures[0]);
         gl.glPopMatrix();
 
         animationPlayerIndex = animationPlayerIndex % 4;
@@ -138,39 +114,51 @@ public class Map1Listener extends AnimListener {
         player.Draw(gl, textures[1]);
         DrawBalles(gl);
         gl.glPopMatrix();
-            if (score > highscore) {
-                AddHighScore(score);
-                highscore = ReadHighScore();
-            }
-//        if (map[player.i][player.j] == 2) { // Winning
-//            System.out.println("Win");
-//        }
+        if (score > highScore) {
+            AddHighScore(score);
+            highScore = ReadHighScore();
+        }
         handelWinning();
     }
-//        handelWinning();
 
 
-int score;
-int highscore= ReadHighScore();
+    private void addBalls() {
+        ArrayList<Pair> validPositions = new ArrayList<>();
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (map[i][j] == 1) {
+                    validPositions.add(new Pair(i, j));
+                }
+            }
+        }
+
+        for (int i = 0; i < 5; i++) {
+            Pair item = validPositions.get(random.nextInt(validPositions.size()));
+            balls.add(new BounceBalls(item.i, item.j));
+            validPositions.remove(item);
+        }
+    }
+
     private void handelWinning() {
-        if ((map[player.i ][player.j] == 2)) { // Winning
+        if ((map[player.i][player.j] == 2)) { // Winning
             System.out.println("Win");
-          //  frame.dispose();
+            //  frame.dispose();
             ChooseLevel.enable = true;
         }
     }
 
     private void handleBallsCollision() {
         BounceBalls ballToRemove = null;
-        for (BounceBalls ball:balls) {
-            if (player.i == ball.i && player.j == ball.j){
+        for (BounceBalls ball : balls) {
+            if (player.i == ball.i && player.j == ball.j) {
                 ballToRemove = ball;
-                score=score+10;
+                score = score + 10;
                 System.out.println(score);
                 break;
             }
         }
-        if (ballToRemove != null){
+        if (ballToRemove != null) {
             balls.remove(ballToRemove);
         }
     }
@@ -200,27 +188,6 @@ int highscore= ReadHighScore();
         for (BounceBalls ball : balls) {
             ball.Draw(gl, textures[2]);
         }
-    }
-
-    public void DrawBackground(GL gl) {
-        gl.glEnable(GL.GL_BLEND);    // Turn Blending On
-        gl.glBindTexture(GL.GL_TEXTURE_2D, textures[0]);
-        gl.glBegin(GL.GL_QUADS);
-        // Front Face
-        gl.glTexCoord2f(0.0f, 0.0f);
-        gl.glVertex3f(0.0f, 0.0f, -1.0f);
-
-        gl.glTexCoord2f(1.0f, 0.0f);
-        gl.glVertex3f(600.0f, 0.0f, -1.0f);
-
-        gl.glTexCoord2f(1.0f, 1.0f);
-        gl.glVertex3f(600.0f, 400.0f, -1.0f);
-
-        gl.glTexCoord2f(0.0f, 1.0f);
-        gl.glVertex3f(0.0f, 400.0f, -1.0f);
-        gl.glEnd();
-
-        gl.glDisable(GL.GL_BLEND);
     }
 
     @Override
@@ -301,14 +268,5 @@ int highscore= ReadHighScore();
 
     public boolean isKeyPressed(final int keyCode) {
         return keyBits.get(keyCode);
-    }
-}
-
-class Pair {
-    int i, j;
-
-    public Pair(int i, int j) {
-        this.i = i;
-        this.j = j;
     }
 }
