@@ -35,6 +35,7 @@ public class Map5 extends JFrame {
         setVisible(true);
         setFocusable(true);
         glcanvas.requestFocus();
+        Map5Listener.map5 = this;
     }
 
     public void processWindowEvent(final WindowEvent e) {
@@ -46,5 +47,9 @@ public class Map5 extends JFrame {
 //            HomePage.voice.start();
         }
     }
+
+//    public void disposePage(){
+//        this.dispose();
+//    }
 
 }

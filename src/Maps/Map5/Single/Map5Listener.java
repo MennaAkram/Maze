@@ -71,6 +71,7 @@ public class Map5Listener extends AnimListener {
     Timer ghostTimerMove = new Timer(500, e -> handleGhostMove());
     boolean pause = false;
     int lives = 3;
+    static Map5 map5 = new Map5();
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
@@ -218,7 +219,9 @@ public class Map5Listener extends AnimListener {
     private void handleLose() {
         if (player.i == ghost.i && player.j == ghost.j) {
             if (lives == 1) {
-                Player.lose = true;
+                map5.dispose();
+                new Lose().setVisible(true);
+                map5.dispose();
             } else {
                 lives--;
                 resetPlayer(map, row, col, player);

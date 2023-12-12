@@ -1,11 +1,10 @@
 package Pages.ChoosePlayer;
 
-import Pages.UserName.userNameMultiplayer;
-import Pages.UserName.userNameSingle;
 import Pages.Home.HomePage;
+import Pages.Instructions.MultiPlayerInstructions;
+import Pages.Instructions.SinglePlayerInstructions;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
-
 import javax.media.opengl.GLCanvas;
 import javax.swing.*;
 import java.awt.*;
@@ -60,12 +59,12 @@ public class ChoosePlayer extends JFrame {
 
     private void singleActionPerformed() {
         this.dispose();
-        new userNameSingle().setVisible(true);
+        new SinglePlayerInstructions().setVisible(true);
     }
 
     private void multiActionPerformed() {
         this.dispose();
-        new userNameMultiplayer().setVisible(true);
+        new MultiPlayerInstructions().setVisible(true);
     }
 
     public void processWindowEvent(final WindowEvent e) {

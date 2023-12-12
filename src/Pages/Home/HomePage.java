@@ -4,18 +4,21 @@ import Pages.ChoosePlayer.ChoosePlayer;
 import Pages.HowToPlay.HowToPlay;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
-
 import javax.media.opengl.GLCanvas;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
+import static Core.Utils.playMusic;
 
 public class HomePage extends JFrame {
+    static Clip voice;
 
     public static void main(String[] args) {
         new HomePage();
     }
 
     public HomePage() {
+        if (voice == null) voice = playMusic("src/Assets/home.wav", true);
         JButton start = new JButton();
         JButton exit = new JButton();
         JButton help = new JButton();

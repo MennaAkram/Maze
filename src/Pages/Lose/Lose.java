@@ -4,17 +4,19 @@
  */
 package Pages.Lose;
 
-import Core.Player;
 import Pages.ChooseLevel.Single.ChooseLevel;
 import Pages.Home.HomePage;
-
+import javax.sound.sampled.Clip;
 import java.awt.event.WindowEvent;
+import static Core.Utils.playMusic;
 
 public class Lose extends javax.swing.JFrame {
+    static Clip voice;
 
     public Lose() {
         initComponents();
         setLocationRelativeTo(null);
+        if (voice == null) voice = playMusic("src/Assets/lose.wav", false);
     }
 
     /**
