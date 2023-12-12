@@ -7,6 +7,9 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Objects;
+import java.util.Scanner;
 
 public class Utils {
 
@@ -72,6 +75,36 @@ public class Utils {
         }
 
         return null;
+    }
+
+    public static String getLastUser(){
+        try {
+            String user = null;
+            Scanner input = new Scanner(new File("UsersList.txt"));
+            while (input.hasNext()) {
+                user = input.nextLine();
+                user = user.substring(0, user.indexOf(' ') == -1 ? user.length() : user.indexOf(' '));
+            }
+            return Objects.requireNonNullElse(user, "");
+        } catch (FileNotFoundException e) {
+            return "";
+        }
+    }
+    public static String getPreLastUser(){
+        try {
+            String lastUser = null;
+            String preLastUser = lastUser;
+            Scanner input = new Scanner(new File("UsersList.txt"));
+            while (input.hasNext()) {
+                preLastUser = lastUser;
+                lastUser = input.nextLine();
+                lastUser = lastUser.substring(0, lastUser.indexOf(' ') == -1 ? lastUser.length() : lastUser.indexOf(' '));
+
+            }
+            return Objects.requireNonNullElse(preLastUser, "");
+        } catch (FileNotFoundException e) {
+            return "";
+        }
     }
 }
 
