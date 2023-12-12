@@ -3,11 +3,14 @@ package Maps.Map2.Multiplayer;
 import Core.AnimListener;
 import Core.Directions;
 import Core.Player;
-import Core.texture.*;
-
+import Core.texture.TextureReader;
+import Maps.Map4.Multi.Map4Multi;
+import com.sun.opengl.util.GLUT;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.GLException;
 import javax.media.opengl.glu.GLU;
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.BitSet;
@@ -63,6 +66,9 @@ public class Map2MultiPlayerListener extends AnimListener {
     int col = map[0].length;
     Player player1 = new Player();
     Player player2 = new Player();
+    int time;
+    Timer timer = new Timer(1000, e -> time++);
+    boolean pause;
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
@@ -94,17 +100,41 @@ public class Map2MultiPlayerListener extends AnimListener {
             }
         }
 
+//        for (int i = 0; i < row; i++) {
+//            for (int j = 0; j < col; j++) {
+//                if (map[i][j] == -1) {
+//                    player1.i = i;
+//                    player1.j = j;
+//                    player1.updateXY();
+//                }
+//            }
+//        }for (int i = 0; i < row; i++) {
+//            for (int j = 0; j < col; j++) {
+//                if (map[i][j] == 2) {
+//                    player1.updateXY();
+//                }
+//            }
+//        }
+//        for (int i = 0; i < row; i++) {
+//            for (int j = 0; j < col; j++) {
+//                if (map[i][j] == -1) {
+//                    player2.i = i;
+//                    player2.j = j;
+//                    player2.updateXY();
+//                }
+//            }
+//        }for (int i = 0; i < row; i++) {
+//            for (int j = 0; j < col; j++) {
+//                if (map[i][j] == 2) {
+//                    player2.updateXY();
+//                }
+//            }
+
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
                 if (map[i][j] == -1) {
                     player1.i = i;
                     player1.j = j;
-                    player1.updateXY();
-                }
-            }
-        }for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                if (map[i][j] == 2) {
                     player1.updateXY();
                 }
             }
@@ -117,35 +147,12 @@ public class Map2MultiPlayerListener extends AnimListener {
                     player2.updateXY();
                 }
             }
-        }for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                if (map[i][j] == 2) {
-                    player2.updateXY();
-                }
-            }
+        }
+        timer.start();
+
         }
 
 
-//        for (int i = 0; i < row; i++) {
-//            for (int j = 0; j < col; j++) {
-//                if (map[i][j] == -1) {
-//                    player1.i = i;
-//                    player1.j = j;
-//                    player1.updateXY();
-//                }
-//            }
-//        }
-//
-//        for (int i = 0; i < row; i++) {
-//            for (int j = 0; j < col; j++) {
-//                if (map[i][j] == -1) {
-//                    player2.i = i;
-//                    player2.j = j;
-//                    player2.updateXY();
-//                }
-//            }
-//        }
-    }
 
     @Override
     public void display(GLAutoDrawable glAutoDrawable) {
@@ -161,6 +168,8 @@ public class Map2MultiPlayerListener extends AnimListener {
         animationPlayerIndex = animationPlayerIndex % 4;
 
 //        handleKeyPress();
+        handlePlayer1Move();
+        handlePlayer2Move();
 
         gl.glPushMatrix();
         gl.glTranslated(135, 385, 0);
@@ -170,7 +179,23 @@ public class Map2MultiPlayerListener extends AnimListener {
         player2.Draw(gl, textures[2]);
         gl.glPopMatrix();
 
+        try {
+            // Set the color before drawing the string
+//            gl.glColor3f(1.0f, 0.0f, 0.0f); // Red color
+
+            GLUT glt = new GLUT();
+
+            // Set the raster position
+            gl.glRasterPos2i(350, 350);
+
+            // Draw the string with the updated color
+            glt.glutBitmapString(5, "Time: " + time);
+            gl.glFlush();
+        } catch (GLException e) {
+            System.out.println(e.getMessage());
+        }
     }
+
 
     public void DrawBackground(GL gl) {
         gl.glEnable(GL.GL_BLEND);    // Turn Blending On
@@ -202,6 +227,126 @@ public class Map2MultiPlayerListener extends AnimListener {
     }
 
     public BitSet keyBits = new BitSet(256);
+
+    public void handlePlayer1Move() {
+        if (isKeyPressed(VK_UP)) {
+            player1.direction = Directions.UP;
+        }
+        if (isKeyPressed(VK_DOWN)) {
+            player1.direction = Directions.DOWN;
+        }
+        if (isKeyPressed(VK_RIGHT)) {
+            player1.direction = Directions.RIGHT;
+        }
+        if (isKeyPressed(VK_LEFT)) {
+            player1.direction = Directions.LEFT;
+        }
+        if (!(isKeyPressed(VK_UP) || isKeyPressed(VK_DOWN) || isKeyPressed(VK_RIGHT) || isKeyPressed(VK_LEFT))) {
+            player1.direction = Directions.IDEAL;
+        }
+
+        switch (player1.direction) {
+            case IDEAL -> {
+            }
+            case UP -> {
+                if (player1.i - 1 < 0) return;
+                if (map[player1.i - 1][player1.j] == 1) {
+                    player1.moveUP();
+                }
+            }
+            case DOWN -> {
+                if (player1.i + 1 >= col) return;
+                if (map[player1.i + 1][player1.j] == 1) {
+                    player1.moveDown();
+                }
+            }
+            case RIGHT -> {
+                if (player1.j + 1 >= row) return;
+                if (map[player1.i][player1.j + 1] == 1) {
+                    player1.moveRight();
+                }
+            }
+            case LEFT -> {
+                if (player1.j - 1 < 0) return;
+                if (map[player1.i][player1.j - 1] == 1) {
+                    player1.moveLeft();
+                }
+            }
+        }
+    }
+
+    public void handlePlayer2Move() {
+        if (isKeyPressed(VK_W)) {
+            player2.direction = Directions.UP;
+        }
+        if (isKeyPressed(VK_S)) {
+            player2.direction = Directions.DOWN;
+        }
+        if (isKeyPressed(VK_D)) {
+            player2.direction = Directions.RIGHT;
+        }
+        if (isKeyPressed(VK_A)) {
+            player2.direction = Directions.LEFT;
+        }
+        if (!(isKeyPressed(VK_W) || isKeyPressed(VK_S) || isKeyPressed(VK_A) || isKeyPressed(VK_D))) {
+            player2.direction = Directions.IDEAL;
+        }
+
+        switch (player2.direction) {
+            case IDEAL -> {
+            }
+            case UP -> {
+                if (player2.i - 1 < 0) return;
+                if (map[player2.i - 1][player2.j] == 1) {
+                    player2.moveUP();
+                }
+            }
+            case DOWN -> {
+                if (player2.i + 1 >= col) return;
+                if (map[player2.i + 1][player2.j] == 1) {
+                    player2.moveDown();
+                }
+            }
+            case RIGHT -> {
+                if (player2.j + 1 >= row) return;
+                if (map[player2.i][player2.j + 1] == 1) {
+                    player2.moveRight();
+                }
+            }
+            case LEFT -> {
+                if (player2.j - 1 < 0) return;
+                if (map[player2.i][player2.j - 1] == 1) {
+                    player2.moveLeft();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+        keyBits.set(keyCode);
+        if (keyCode == VK_SPACE) {
+            pause = !pause;
+            if (pause) {
+                timer.stop();
+                Map2MultiPlayer.animator.stop();
+
+                JOptionPane.showMessageDialog(null, "Enter Space to Resume", "Pause", JOptionPane.WARNING_MESSAGE);
+            } else {
+//                timer.start();
+                Map2MultiPlayer.animator.start();
+                timer.start();
+            }
+        }
+    }
+
+
+
 
 //    public void handleKeyPress() {
 //
@@ -300,15 +445,7 @@ public class Map2MultiPlayerListener extends AnimListener {
 //        }
 //    }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-    }
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-        int keyCode = e.getKeyCode();
-        keyBits.set(keyCode);
-    }
 
     @Override
     public void keyReleased(KeyEvent e) {

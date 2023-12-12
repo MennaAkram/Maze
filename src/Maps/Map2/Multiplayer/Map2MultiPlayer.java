@@ -9,13 +9,16 @@ import java.awt.*;
 import java.awt.event.WindowEvent;
 
 public class Map2MultiPlayer extends JFrame {
+    GLCanvas glcanvas;
+    static Animator animator;
+
     public static void main(String[] args) {
         new Map2MultiPlayer();
     }
 
     public Map2MultiPlayer() {
-        GLCanvas glcanvas;
-        Animator animator;
+        //GLCanvas glcanvas;
+        //Animator animator;
 
         Map2MultiPlayerListener listener = new Map2MultiPlayerListener();
         glcanvas = new GLCanvas();

@@ -10,7 +10,7 @@ import java.awt.event.WindowEvent;
 
 public class Map4 extends JFrame {
         GLCanvas glcanvas;
-        static Animator animator;
+        public static Animator animator;
 
     public static void main(String[] args) {
         new Map4();
