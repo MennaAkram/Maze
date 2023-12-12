@@ -5,7 +5,6 @@ import Core.AnimListener;
 import Core.Directions;
 import Core.Player;
 import Core.texture.*;
-import Pages.ChooseLevel.Single.ChooseLevel;
 import Pages.Lose.Lose;
 
 import javax.media.opengl.GL;
@@ -13,13 +12,12 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLException;
 import javax.media.opengl.glu.GLU;
 import javax.swing.*;
-import javax.swing.Timer;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.List;
+import java.util.Random;
 import static Core.Utils.DrawBackground;
 import static Core.Utils.drawString;
 import static Core.Utils.resetPlayer;
@@ -28,7 +26,7 @@ import static java.awt.event.KeyEvent.VK_LEFT;
 
 public class Map2Listener extends AnimListener {
 
-    public static String userName = Utils.getLastUser();
+    public static String userName = "";
     String[] textureNames = {"Ghost1.png" ,"Ghost2.png" ,"Ghost3.png" ,"Ghost4.png","Maps//Map2.png", "Player.png"};
     TextureReader.Texture[] texture = new TextureReader.Texture[textureNames.length];
     int[] textures = new int[textureNames.length];
@@ -81,10 +79,7 @@ public class Map2Listener extends AnimListener {
     Timer ghostTimerMove = new Timer(500, e -> handleGhostMove());
     boolean pause = false;
     int lives = 3;
-    ArrayList<BounceBalls> balls = new ArrayList<>(5);
-    int highScore = ReadHighScore();
-    static Map2 map2;
-
+    static Map2 map2 = new Map2();
 
 
     @Override
@@ -123,24 +118,6 @@ public class Map2Listener extends AnimListener {
         initGhost();
         timer.start();
         ghostTimerMove.start();
-        addBalls();
-    }
-    private void addBalls() {
-        ArrayList<Pair> validPositions = new ArrayList<>();
-
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                if (map[i][j] == 1) {
-                    validPositions.add(new Pair(i, j));
-                }
-            }
-        }
-
-        for (int i = 0; i < 5; i++) {
-            Pair item = validPositions.get(random.nextInt(validPositions.size()));
-            balls.add(new BounceBalls(item.i, item.j));
-            validPositions.remove(item);
-        }
     }
 
 
@@ -159,53 +136,21 @@ public class Map2Listener extends AnimListener {
 
         handleKeyPress();
         handleLose();
-        handleBallsCollision();
 
         gl.glPushMatrix();
         gl.glTranslated(135, 385, 0);
-        gl.glScaled(0.95, 1.1, 1);
+        gl.glScaled(1, 1.17, 1);
         gl.glRotated(-90, 0, 0, 1);
-        player.Draw(gl, textures[1]);
+        player.Draw(gl, textures[5]);
         drawGhost(gl);
-        for (BounceBalls ball : balls) {
-            ball.Draw(gl, textures[2]);
-        }
         gl.glPopMatrix();
         try {
             drawString(gl, 8, 8, "Time: " + time);
             drawString(gl, 8, 40, "Lives: " + lives);
             drawString(gl, 8, 72, "Score: " + score);
-            drawString(gl, 465, 370, "Player1:");
-            drawString(gl, 465, 340, userName);
         } catch (GLException e) {
             System.out.println(e.getMessage());
         }
-        if (score > highScore) {
-            AddHighScore(score);
-            highScore = ReadHighScore();
-        }
-         handelWinning();
-    }
-
-    public static void AddHighScore(int score) {
-        try (FileWriter f = new FileWriter("Score.txt", false);
-             Scanner input = new Scanner(new File("Score.txt"))) {
-            int highScore = input.hasNext() ? input.nextInt() : 0;
-            if (score > highScore) highScore = score;
-            f.write(highScore + "");
-            f.flush();
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
-    }
-
-    public static int ReadHighScore() {
-        try (Scanner input = new Scanner(new File("Score.txt"));) {
-            return (input.hasNext()) ? input.nextInt() : 0;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return 0;
     }
 
     @Override
@@ -234,28 +179,6 @@ public class Map2Listener extends AnimListener {
         ghost = new Ghost(item.i, item.j);
     }
 
-    private void handelWinning() {
-        if ((map[player.i][player.j] == 2)) { // Winning
-            System.out.println("Win");
-            //  frame.dispose();
-            ChooseLevel.enable = true;
-        }
-    }
-
-    private void handleBallsCollision() {
-        BounceBalls ballToRemove = null;
-        for (BounceBalls ball : balls) {
-            if (player.i == ball.i && player.j == ball.j) {
-                ballToRemove = ball;
-                score = score + 10;
-                System.out.println(score);
-                break;
-            }
-        }
-        if (ballToRemove != null) {
-            balls.remove(ballToRemove);
-        }
-    }
 
     public BitSet keyBits = new BitSet(256);
 

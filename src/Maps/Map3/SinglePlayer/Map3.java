@@ -12,7 +12,6 @@ public class Map3 extends JFrame {
     }
 
     public Map3() {
-        Map3Listener.map5=this;
         GLCanvas glcanvas;
         Animator animator;
 
