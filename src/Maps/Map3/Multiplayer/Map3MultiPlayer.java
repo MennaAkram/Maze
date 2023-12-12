@@ -23,7 +23,7 @@ public class Map3MultiPlayer extends JFrame {
         glcanvas.addGLEventListener(listener);
         glcanvas.addKeyListener(listener);
         getContentPane().add(glcanvas, BorderLayout.CENTER);
-        animator = new FPSAnimator(24);
+        animator = new FPSAnimator(15);
         animator.add(glcanvas);
         animator.start();
 

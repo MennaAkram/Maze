@@ -19,7 +19,6 @@ public class Map4 extends JFrame {
 
     public Map4() {
 
-
         glcanvas = new GLCanvas();
         glcanvas.addGLEventListener(listener);
         glcanvas.addKeyListener(listener);

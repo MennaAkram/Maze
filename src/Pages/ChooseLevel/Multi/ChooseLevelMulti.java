@@ -70,7 +70,7 @@ public class ChooseLevelMulti extends JFrame {
         animator.start();
 
         setTitle("Maze");
-         setSize(600, 400);
+        setSize(600, 400);
         setLocationRelativeTo(null);
         setVisible(true);
         setFocusable(true);

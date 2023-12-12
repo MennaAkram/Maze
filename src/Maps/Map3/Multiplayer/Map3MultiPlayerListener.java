@@ -20,7 +20,7 @@ import static java.awt.event.KeyEvent.*;
 
 public class Map3MultiPlayerListener extends AnimListener {
     String gameAudio = "src/music/music.wav";
-    String[] textureNames = {"Maps//Map4.png", "Player.png" , "22.png"};
+    String[] textureNames = {"Maps//Map3.png", "Player.png" , "22.png"};
     TextureReader.Texture[] texture = new TextureReader.Texture[textureNames.length];
     int[] textures = new int[textureNames.length];
     int animationPlayerIndex = 1;
@@ -37,19 +37,19 @@ public class Map3MultiPlayerListener extends AnimListener {
             {0,1,0,1,1,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,1,1,1,1,0,1,0,1,0,1,0},
             {0,1,0,0,0,1,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,1,0,1,0,1,0},
             {0,1,1,1,1,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,1,1,0,1,1,1,1,1,1,1,0,1,0},
-            {0,1,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,1,0},//
+            {0,1,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,1,0},
             {0,1,1,1,1,1,0,1,0,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,0,1,0},
             {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0},
             {0,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,0,1,0,1,1,1,0,1,0},
-            {0,1,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0},//
-            {0,1,1,1,0,1,0,1,0,1,0,1,1,1,0,1,1,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,0},//
+            {0,1,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0},
+            {0,1,1,1,0,1,0,1,0,1,0,1,1,1,0,1,1,1,0,1,1,1,1,1,1,1,1,1,0,1,0,1,0},//
             {0,1,0,1,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,1,0,1,0,1,0,0,0,1,0,1,0},
             {0,1,0,1,1,1,0,1,1,1,1,1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,1,1,0,1,0,1,0},
             {0,0,0,0,0,1,0,0,0,1,0,1,0,0,0,1,0,1,0,0,0,1,0,0,0,0,0,0,0,1,0,1,0},
             {0,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,0,1,0,1,1,1,1,1,1,1,1,1,0,1,1,1,0},
             {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0},
             {0,1,1,1,0,1,1,1,0,1,1,1,1,1,1,1,1,1,0,1,0,1,0,1,0,1,1,1,1,1,1,1,0},
-            {0,1,0,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,1,0},
+            {0,1,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,1,0},
             {0,1,1,1,1,1,0,1,0,1,0,1,0,1,0,1,1,1,1,1,0,1,0,1,1,1,1,1,0,1,1,1,0},
             {0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,0,0},
             {0,1,0,1,1,1,0,1,1,1,1,1,0,1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,1,1,1,1,0},
@@ -69,26 +69,26 @@ public class Map3MultiPlayerListener extends AnimListener {
 
     public Map3MultiPlayerListener() throws UnsupportedAudioFileException, IOException {
     }
-    private void initializeAudio() {
-        try {
-            // Load an audio file (change the path to your audio file)
-            File audioFile = new File("E:\\idea\\Maze\\src\\music\\music.wav");
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
-            Clip audioClip = AudioSystem.getClip();
-            audioClip.open(audioInputStream);
-
-            audioClip.start();
-            Thread.sleep(audioClip.getMicrosecondLength() / 1000);
-
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+//    private void initializeAudio() {
+//        try {
+//            // Load an audio file (change the path to your audio file)
+//            File audioFile = new File("E:\\idea\\Maze\\src\\music\\music.wav");
+//            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+//            Clip audioClip = AudioSystem.getClip();
+//            audioClip.open(audioInputStream);
+//
+//            audioClip.start();
+//            Thread.sleep(audioClip.getMicrosecondLength() / 1000);
+//
+//        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException | InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
         GL gl = glAutoDrawable.getGL();
-        gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        gl.glClearColor(0.16f, 0.52f, 0.52f, 1.0f);
 
         gl.glLoadIdentity();
         gl.glOrtho(0, 600, 0, 400, 0, 1.0);
@@ -168,7 +168,7 @@ public class Map3MultiPlayerListener extends AnimListener {
 
         gl.glPushMatrix();
         gl.glTranslated(135, 385, 0);
-        gl.glScaled(0.95, 1.1, 1);
+        gl.glScaled(1, 1.25, 1);
         gl.glRotated(-90, 0, 0, 1);
         player1.Draw(gl,textures[1]);
         player2.Draw(gl,textures[2]);
