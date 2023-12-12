@@ -43,6 +43,27 @@ public class Player {
         gl.glEnd();
         gl.glDisable(GL.GL_BLEND);
     }
+    public void Draw(GL gl, int texture,int xGap, int yGap) {
+
+        gl.glEnable(GL.GL_BLEND);
+        gl.glBindTexture(GL.GL_TEXTURE_2D, texture);
+        gl.glBegin(GL.GL_QUADS);
+
+        gl.glTexCoord2f(0.0f, 1.0f);
+        gl.glVertex3f(x+xGap, y+yGap, -1.0f);
+
+        gl.glTexCoord2f(1.0f, 1.0f);
+        gl.glVertex3f(x+xGap, y+yGap + size, -1.0f);
+
+        gl.glTexCoord2f(1.0f, 0.0f);
+        gl.glVertex3f(x+xGap + size, y+yGap + size, -1.0f);
+
+        gl.glTexCoord2f(0.0f, 0.0f);
+        gl.glVertex3f(x+xGap + size, y+yGap, -1.0f);
+
+        gl.glEnd();
+        gl.glDisable(GL.GL_BLEND);
+    }
 
     public void moveUP() {
         direction = Directions.UP;
