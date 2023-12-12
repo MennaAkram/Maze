@@ -160,7 +160,7 @@ public class Map2MultiPlayerListener extends AnimListener {
 
         animationPlayerIndex = animationPlayerIndex % 4;
 
-//        handleKeyPress();
+//        handlePlayerMove();
 
         gl.glPushMatrix();
         gl.glTranslated(135, 385, 0);
@@ -203,7 +203,7 @@ public class Map2MultiPlayerListener extends AnimListener {
 
     public BitSet keyBits = new BitSet(256);
 
-//    public void handleKeyPress() {
+//    public void handlePlayerMove() {
 //
 //        // Player1 Movement
 //        if (isKeyPressed(VK_UP)) {

@@ -67,7 +67,7 @@ public class Map3MultiPlayerListener extends AnimListener {
 
     Player player2 = new Player();
 
-    public Map3MultiPlayerListener() throws UnsupportedAudioFileException, IOException {
+    public Map3MultiPlayerListener() {
     }
     private void initializeAudio() {
         try {

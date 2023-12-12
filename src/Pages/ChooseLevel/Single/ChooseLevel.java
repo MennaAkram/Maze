@@ -15,7 +15,9 @@ import java.awt.event.WindowEvent;
 
 public class ChooseLevel extends JFrame {
 
-    public static boolean enable = false;
+    public static boolean enable2 = false;
+    public static boolean enable3 = false;
+    public static boolean enable4 = false;
     public static void main(String[] args) {
         new ChooseLevel();
     }
@@ -41,6 +43,7 @@ public class ChooseLevel extends JFrame {
         level2.addActionListener(evt -> level2ActionPerformed());
         getContentPane().add(level2);
         level2.setBounds(225, 120, 150, 40);
+        level2.setEnabled(enable2);
 
         level3.setFont(new Font("Maiden Orange", Font.PLAIN, 32)); // NOI18N
         level3.setText("Level 3");
@@ -49,6 +52,7 @@ public class ChooseLevel extends JFrame {
         level3.addActionListener(evt -> level3ActionPerformed());
         getContentPane().add(level3);
         level3.setBounds(225, 170, 150, 40);
+        level3.setEnabled(enable3);
 
         level4.setFont(new Font("Maiden Orange", Font.PLAIN, 32)); // NOI18N
         level4.setText("Level 4");
@@ -57,6 +61,7 @@ public class ChooseLevel extends JFrame {
         level4.addActionListener(evt -> level4ActionPerformed());
         getContentPane().add(level4);
         level4.setBounds(225, 220, 150, 40);
+        level4.setEnabled(enable4);
 
         GLCanvas glcanvas;
         Animator animator;

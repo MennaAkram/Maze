@@ -2,28 +2,35 @@ package Maps.Map1.single;
 
 import Core.*;
 import Core.texture.TextureReader;
-import static Core.Utils.DrawBackground;
+
 import Pages.ChooseLevel.Single.ChooseLevel;
+import Pages.Lose.Lose;
+import Pages.win.Win;
+
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.GLException;
 import javax.media.opengl.glu.GLU;
+import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
-import static Core.Utils.resetPlayer;
+import static Core.Utils.*;
+import static Core.Utils.drawString;
 import static java.awt.event.KeyEvent.*;
 
 public class Map1Listener extends AnimListener {
-    String[] textureNames = {"Maps//Map1.png", "Player.png", "Star 2.png"};
+    JFrame frame = null;
+    String[] textureNames = {"Ghost1.png", "Ghost2.png", "Ghost3.png","Ghost4.png", "Maps//Map1.png", "Player.png", "Star 2.png"};
     TextureReader.Texture[] texture = new TextureReader.Texture[textureNames.length];
     int[] textures = new int[textureNames.length];
     int animationPlayerIndex = 1;
+    AStarAlgorithm aStarAlgorithm;
+
     int[][] map = new int[][]{
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
@@ -53,12 +60,20 @@ public class Map1Listener extends AnimListener {
     int col = map[0].length;
     Player player = new Player();
     Random random = new Random();
+    Ghost ghost;
+    int lives = 3;
+    int time;
+    Timer timer = new Timer(1000, e -> time++);
+    Timer ghostTimerMove = new Timer(500, e -> handleGhostMove());
+    boolean pause = false;
     ArrayList<BounceBalls> balls = new ArrayList<>(5);
     int score;
     int highScore = ReadHighScore();
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
+        aStarAlgorithm = new AStarAlgorithm(map);
+
         GL gl = glAutoDrawable.getGL();
         gl.glClearColor(0.16f, 0.52f, 0.52f, 1.0f);
 
@@ -88,6 +103,9 @@ public class Map1Listener extends AnimListener {
         }
 
         resetPlayer(map, row, col, player);
+        initGhost();
+        timer.start();
+        ghostTimerMove.start();
         addBalls();
     }
 
@@ -99,19 +117,22 @@ public class Map1Listener extends AnimListener {
         gl.glPushMatrix();
         gl.glTranslated(130, 10, 0);
         gl.glScaled(0.55, 0.95, 1);
-        DrawBackground(gl, textures[0]);
+        DrawBackground(gl, textures[4]);
         gl.glPopMatrix();
 
         animationPlayerIndex = animationPlayerIndex % 4;
 
-        handleKeyPress();
+
+        handleLose();
+        handlePlayerMove();
         handleBallsCollision();
 
         gl.glPushMatrix();
         gl.glTranslated(135, 385, 0);
         gl.glScaled(1.6, 1.85, 1);
         gl.glRotated(-90, 0, 0, 1);
-        player.Draw(gl, textures[1]);
+        player.Draw(gl, textures[5]);
+        drawGhost(gl);
         DrawBalles(gl);
         gl.glPopMatrix();
         if (score > highScore) {
@@ -119,6 +140,13 @@ public class Map1Listener extends AnimListener {
             highScore = ReadHighScore();
         }
         handelWinning();
+        try {
+            drawString(gl, 8, 8, "Time: " + time);
+            drawString(gl, 8, 40, "Lives: " + lives);
+            drawString(gl, 8, 72, "Score: " + score);
+        } catch (GLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 
@@ -143,10 +171,72 @@ public class Map1Listener extends AnimListener {
     private void handelWinning() {
         if ((map[player.i][player.j] == 2)) { // Winning
             System.out.println("Win");
-            //  frame.dispose();
-            ChooseLevel.enable = true;
+            frame.dispose();
+            new Win().setVisible(true);
+            ChooseLevel.enable2 = true;
         }
     }
+
+
+
+    private void handleLose() {
+        if (player.i == ghost.i && player.j == ghost.j) {
+            if (lives == 1) {
+                frame.dispose();
+                new Lose().setVisible(true);
+            } else {
+                lives--;
+                resetPlayer(map, row, col, player);
+            }
+        }
+    }
+
+    private void handleGhostMove() {
+        List<Directions> optimalPath = aStarAlgorithm.findOptimalPath(ghost.i, ghost.j, player.i, player.j);
+
+        if (!optimalPath.isEmpty()) {
+            Directions nextMove = optimalPath.get(0);
+
+            switch (nextMove) {
+                case UP -> {
+                    ghost.moveUP();
+                    animationPlayerIndex++;
+                }
+                case DOWN -> {
+                    ghost.moveDown();
+                    animationPlayerIndex++;
+                }
+                case RIGHT -> {
+                    ghost.moveRight();
+                    animationPlayerIndex++;
+                }
+                case LEFT -> {
+                    ghost.moveLeft();
+                    animationPlayerIndex++;
+                }
+                case IDEAL -> animationPlayerIndex++;
+            }
+        }
+    }
+
+    private void drawGhost(GL gl) {
+        ghost.Draw(gl, textures[animationPlayerIndex]);
+    }
+
+    private void initGhost() {
+        ArrayList<Pair> validPositions = new ArrayList<>();
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (map[i][j] == 1) {
+                    validPositions.add(new Pair(i, j));
+                }
+            }
+        }
+        Pair item = validPositions.get(random.nextInt(validPositions.size()));
+        ghost = new Ghost(item.i, item.j);
+    }
+
 
     private void handleBallsCollision() {
         BounceBalls ballToRemove = null;
@@ -186,7 +276,7 @@ public class Map1Listener extends AnimListener {
 
     public void DrawBalles(GL gl) {
         for (BounceBalls ball : balls) {
-            ball.Draw(gl, textures[2]);
+            ball.Draw(gl, textures[6]);
         }
     }
 
@@ -200,7 +290,7 @@ public class Map1Listener extends AnimListener {
 
     public BitSet keyBits = new BitSet(256);
 
-    public void handleKeyPress() {
+    public void handlePlayerMove() {
         if (isKeyPressed(VK_UP)) {
             player.direction = Directions.UP;
         }

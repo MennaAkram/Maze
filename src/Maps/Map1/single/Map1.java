@@ -10,18 +10,19 @@ import java.awt.*;
 import java.awt.event.WindowEvent;
 
 public class Map1 extends JFrame {
+        Map1Listener listener = new Map1Listener();
     public Map1() {
         GLCanvas glcanvas;
         Animator animator;
 
-        Map1Listener listener = new Map1Listener();
         glcanvas = new GLCanvas();
         glcanvas.addGLEventListener(listener);
         glcanvas.addKeyListener(listener);
         getContentPane().add(glcanvas, BorderLayout.CENTER);
-        animator = new FPSAnimator(18);
+        animator = new FPSAnimator(15);
         animator.add(glcanvas);
         animator.start();
+        listener.frame = this;
 
         setTitle("Maze");
         setSize(600, 400);
