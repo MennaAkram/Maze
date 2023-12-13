@@ -128,10 +128,10 @@ public class Map1Listener extends AnimListener {
         handleBallsCollision();
 
         gl.glPushMatrix();
-        gl.glTranslated(135, 385, 0);
-        gl.glScaled(1.6, 1.85, 1);
+        gl.glTranslated(138, 379, 0);
+        gl.glScaled(1.52, 1.79, 1);//
         gl.glRotated(-90, 0, 0, 1);
-        player.Draw(gl, textures[5]);
+        player.Draw(gl, textures[5],-3,-2);
         drawGhost(gl);
         DrawBalles(gl);
         gl.glPopMatrix();

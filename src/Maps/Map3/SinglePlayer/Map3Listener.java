@@ -25,9 +25,9 @@ import static Core.Utils.resetPlayer;
 import static java.awt.event.KeyEvent.*;
 
 public class Map3Listener extends AnimListener {
-    long startTime;
-    long elapsedTime;
-    String gameAudio = "src/music/music.wav";
+    public JFrame frame;
+    public static String userName = Utils.getLastUser();
+
     String[] textureNames = {"Ghost1.png" ,"Ghost2.png" ,"Ghost3.png" ,"Ghost4.png","Maps//Map3.png", "Player.png" };
     TextureReader.Texture[] texture = new TextureReader.Texture[textureNames.length];
     int[] textures = new int[textureNames.length];
@@ -156,6 +156,8 @@ public class Map3Listener extends AnimListener {
             drawString(gl, 8, 8, "Time: " + time);
             drawString(gl, 8, 40, "Lives: " + lives);
             drawString(gl, 8, 72, "Score: " + score);
+            drawString(gl, 465, 370, "Player1:");
+            drawString(gl, 465, 340, userName);
         } catch (GLException e) {
             System.out.println(e.getMessage());
         }
@@ -207,8 +209,8 @@ public class Map3Listener extends AnimListener {
     private void handelWinning() {
         if ((map[player.i][player.j] == 2)) { // Winning
             System.out.println("Win");
-            //  frame.dispose();
-            ChooseLevel.enable = true;
+            frame.dispose();
+            ChooseLevel.enable4 = true;
         }
     }
 

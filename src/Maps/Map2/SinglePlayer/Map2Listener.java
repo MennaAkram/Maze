@@ -18,8 +18,10 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.List;
+import java.util.Random;
 import static Core.Utils.DrawBackground;
 import static Core.Utils.drawString;
 import static Core.Utils.resetPlayer;
@@ -84,7 +86,6 @@ public class Map2Listener extends AnimListener {
     ArrayList<BounceBalls> balls = new ArrayList<>(5);
     int highScore = ReadHighScore();
     static Map2 map2;
-
 
 
     @Override

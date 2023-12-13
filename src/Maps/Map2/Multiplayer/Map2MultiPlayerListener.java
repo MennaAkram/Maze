@@ -101,36 +101,6 @@ public class Map2MultiPlayerListener extends AnimListener {
             }
         }
 
-//        for (int i = 0; i < row; i++) {
-//            for (int j = 0; j < col; j++) {
-//                if (map[i][j] == -1) {
-//                    player1.i = i;
-//                    player1.j = j;
-//                    player1.updateXY();
-//                }
-//            }
-//        }for (int i = 0; i < row; i++) {
-//            for (int j = 0; j < col; j++) {
-//                if (map[i][j] == 2) {
-//                    player1.updateXY();
-//                }
-//            }
-//        }
-//        for (int i = 0; i < row; i++) {
-//            for (int j = 0; j < col; j++) {
-//                if (map[i][j] == -1) {
-//                    player2.i = i;
-//                    player2.j = j;
-//                    player2.updateXY();
-//                }
-//            }
-//        }for (int i = 0; i < row; i++) {
-//            for (int j = 0; j < col; j++) {
-//                if (map[i][j] == 2) {
-//                    player2.updateXY();
-//                }
-//            }
-
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
                 if (map[i][j] == -1) {
@@ -140,6 +110,7 @@ public class Map2MultiPlayerListener extends AnimListener {
                 }
             }
         }
+
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
                 if (map[i][j] == -1) {
@@ -151,8 +122,7 @@ public class Map2MultiPlayerListener extends AnimListener {
         }
         timer.start();
 
-        }
-
+    }
 
 
     @Override
@@ -168,7 +138,6 @@ public class Map2MultiPlayerListener extends AnimListener {
 
         animationPlayerIndex = animationPlayerIndex % 4;
 
-//        handleKeyPress();
         handlePlayer1Move();
         handlePlayer2Move();
 
@@ -181,8 +150,6 @@ public class Map2MultiPlayerListener extends AnimListener {
         gl.glPopMatrix();
         try {
             drawString(gl, 8, 8, "Time: " + time);
-            //drawString(gl, 8, 40, "Lives: " + lives);
-            //drawString(gl, 8, 72, "Score: " + score);
             drawString(gl, 465, 370, "Player1 :");
             drawString(gl, 465, 340, userName1);
             drawString(gl, 465, 280, "Player2 :");
@@ -190,21 +157,6 @@ public class Map2MultiPlayerListener extends AnimListener {
         } catch (GLException e) {
             System.out.println(e.getMessage());
         }
-//        try {
-//            // Set the color before drawing the string
-////            gl.glColor3f(1.0f, 0.0f, 0.0f); // Red color
-//
-//            GLUT glt = new GLUT();
-//
-//            // Set the raster position
-//            gl.glRasterPos2i(350, 350);
-//
-//            // Draw the string with the updated color
-//            glt.glutBitmapString(5, "Time: " + time);
-//            gl.glFlush();
-//        } catch (GLException e) {
-//            System.out.println(e.getMessage());
-//        }
     }
 
     public void DrawBackground(GL gl) {
@@ -348,113 +300,11 @@ public class Map2MultiPlayerListener extends AnimListener {
 
                 JOptionPane.showMessageDialog(null, "Enter Space to Resume", "Pause", JOptionPane.WARNING_MESSAGE);
             } else {
-//                timer.start();
                 Map2MultiPlayer.animator.start();
                 timer.start();
             }
         }
     }
-
-
-
-
-//    public void handleKeyPress() {
-//
-//        // Player1 Movement
-//        if (isKeyPressed(VK_UP)) {
-//            player1.direction = Directions.UP;
-//        }
-//        if (isKeyPressed(VK_DOWN)) {
-//            player1.direction = Directions.DOWN;
-//        }
-//        if (isKeyPressed(VK_RIGHT)) {
-//            player1.direction = Directions.RIGHT;
-//        }
-//        if (isKeyPressed(VK_LEFT)) {
-//            player1.direction = Directions.LEFT;
-//        }
-//        if (!(isKeyPressed(VK_UP) || isKeyPressed(VK_DOWN) || isKeyPressed(VK_RIGHT) || isKeyPressed(VK_LEFT))) {
-//            player1.direction = Directions.IDEAL;
-//        }
-//
-//        // Player 2 Movement
-//        if (isKeyPressed(VK_W)) {
-//            player2.direction = Directions.W;
-//        }
-//        if (isKeyPressed(VK_S)) {
-//            player2.direction = Directions.S;
-//        }
-//        if (isKeyPressed(VK_D)) {
-//            player2.direction = Directions.D;
-//        }
-//        if (isKeyPressed(VK_A)) {
-//            player2.direction = Directions.A;
-//        }
-//        if (!(isKeyPressed(VK_W) || isKeyPressed(VK_S) || isKeyPressed(VK_D) || isKeyPressed(VK_A))) {
-//            player1.direction = Directions.IDEAL;
-//        }
-//
-//          // Player 1
-//        switch (player1.direction) {
-//            case IDEAL -> {
-//            }
-//            case UP -> {
-//                if (player1.i - 1 < 0) return;
-//                if (map[player1.i - 1][player1.j] == 1) {
-//                    player1.moveUP();
-//                }
-//            }
-//            case DOWN -> {
-//                if (player1.i + 1 >= col) return;
-//                if (map[player1.i + 1][player1.j] == 1) {
-//                    player1.moveDown();
-//                }
-//            }
-//            case RIGHT -> {
-//                if (player1.j + 1 >= row) return;
-//                if (map[player1.i][player1.j + 1] == 1) {
-//                    player1.moveRight();
-//                }
-//            }
-//            case LEFT -> {
-//                if (player1.j - 1 < 0) return;
-//                if (map[player1.i][player1.j - 1] == 1) {
-//                    player1.moveLeft();
-//                }
-//            }
-//        }
-//
-//        // Player 2
-//        switch (player2.direction) {
-//            case IDEAL -> {
-//            }
-//            case W -> {
-//                if (player2.i - 1 < 0) return;
-//                if (map[player2.i - 1][player2.j] == 1) {
-//                    player2.moveU();
-//                }
-//            }
-//            case S -> {
-//                if (player2.i + 1 >= col) return;
-//                if (map[player2.i + 1][player2.j] == 1) {
-//                    player2.moveD();
-//                }
-//            }
-//            case D -> {
-//                if (player2.j + 1 >= row) return;
-//                if (map[player2.i][player2.j + 1] == 1) {
-//                    player2.moveR();
-//                }
-//            }
-//            case A -> {
-//                if (player2.j - 1 < 0) return;
-//                if (map[player2.i][player2.j - 1] == 1) {
-//                    player2.moveL();
-//                }
-//            }
-//        }
-//    }
-
 
 
     @Override
@@ -463,7 +313,7 @@ public class Map2MultiPlayerListener extends AnimListener {
         keyBits.clear(keyCode);
         switch (keyCode) {
             case VK_UP, VK_DOWN, VK_RIGHT, VK_LEFT -> player1.direction = Directions.IDEAL;
-           // case VK_W, VK_S, VK_D, VK_A -> player2.direction = Directions.IDEAL;
+            case VK_W, VK_S, VK_D, VK_A -> player2.direction = Directions.IDEAL;
         }
     }
 

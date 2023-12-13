@@ -3,23 +3,29 @@ package Maps.Map3.Multiplayer;
 import Core.AnimListener;
 import Core.Directions;
 import Core.Player;
+import Core.Utils;
 import Core.texture.TextureReader;
+import Maps.Map2.Multiplayer.Map2MultiPlayer;
 import Pages.win.Win;
 import com.sun.opengl.util.GLUT;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.GLException;
 import javax.media.opengl.glu.GLU;
 import javax.sound.sampled.*;
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.BitSet;
 
+import static Core.Utils.drawString;
 import static java.awt.event.KeyEvent.*;
 
 public class Map3MultiPlayerListener extends AnimListener {
-    String gameAudio = "src/music/music.wav";
+    public static String userName1 = Utils.getPreLastUser();
+    public static String userName2 = Utils.getLastUser();
     String[] textureNames = {"Maps//Map3.png", "Player.png" , "22.png"};
     TextureReader.Texture[] texture = new TextureReader.Texture[textureNames.length];
     int[] textures = new int[textureNames.length];
@@ -66,6 +72,9 @@ public class Map3MultiPlayerListener extends AnimListener {
     Player player1 = new Player();
 
     Player player2 = new Player();
+    int time;
+    Timer timer = new Timer(1000, e -> time++);
+    boolean pause;
 
     public Map3MultiPlayerListener() {
     }
@@ -147,6 +156,7 @@ public class Map3MultiPlayerListener extends AnimListener {
             }
         }
 
+        timer.start();
 
     }
 
@@ -173,6 +183,15 @@ public class Map3MultiPlayerListener extends AnimListener {
         player1.Draw(gl,textures[1]);
         player2.Draw(gl,textures[2]);
         gl.glPopMatrix();
+        try {
+            drawString(gl, 8, 8, "Time: " + time);
+            drawString(gl, 465, 370, "Player1 :");
+            drawString(gl, 465, 340, userName1);
+            drawString(gl, 465, 280, "Player2 :");
+            drawString(gl, 465, 250, userName2);
+        } catch (GLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void DrawBackground(GL gl) {
@@ -304,6 +323,18 @@ public class Map3MultiPlayerListener extends AnimListener {
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
         keyBits.set(keyCode);
+        if (keyCode == VK_SPACE) {
+            pause = !pause;
+            if (pause) {
+                timer.stop();
+                Map2MultiPlayer.animator.stop();
+
+                JOptionPane.showMessageDialog(null, "Enter Space to Resume", "Pause", JOptionPane.WARNING_MESSAGE);
+            } else {
+                Map2MultiPlayer.animator.start();
+                timer.start();
+            }
+        }
     }
 
     @Override
