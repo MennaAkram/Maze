@@ -156,6 +156,9 @@ public class Map4Listener extends AnimListener {
         try {
             drawString(gl, 8, 8, "Time: " + time);
             drawString(gl, 8, 40, "Lives: " + lives);
+            drawString(gl, 8, 72, "Score: " + score);
+            drawString(gl, 8, 104, "H Score: " + highScore);
+//            drawString(gl, 8, 136, "Name: " + );
         } catch (GLException e) {
             System.out.println(e.getMessage());
         }

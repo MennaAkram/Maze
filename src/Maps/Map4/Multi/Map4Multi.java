@@ -10,7 +10,7 @@ import java.awt.event.WindowEvent;
 
 public class Map4Multi extends JFrame {
         GLCanvas glcanvas;
-        static Animator animator;
+        public static Animator animator;
 
     public static void main(String[] args) {
         new Map4Multi();
@@ -28,7 +28,7 @@ public class Map4Multi extends JFrame {
         animator.start();
 
         setTitle("Maze");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         setSize(600, 400);
         setResizable(false);
         setLocationRelativeTo(null);

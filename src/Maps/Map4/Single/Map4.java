@@ -10,7 +10,7 @@ import java.awt.event.WindowEvent;
 
 public class Map4 extends JFrame {
         GLCanvas glcanvas;
-        static Animator animator;
+        public static Animator animator;
     Map4Listener listener = new Map4Listener();
 
     public static void main(String[] args) {
@@ -18,7 +18,6 @@ public class Map4 extends JFrame {
     }
 
     public Map4() {
-
 
         glcanvas = new GLCanvas();
         glcanvas.addGLEventListener(listener);
@@ -30,28 +29,21 @@ public class Map4 extends JFrame {
         listener.frame = this;
 
         setTitle("Maze");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 400);
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
         setFocusable(true);
         glcanvas.requestFocus();
-//        Map5Listener.map5 = this;
     }
 
     public void processWindowEvent(final WindowEvent e) {
         super.processWindowEvent(e);
 
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-
             new HomePage().setVisible(true);
-//            HomePage.voice.start();
+            HomePage.voice.start();
         }
     }
-
-//    public void disposePage(){
-//        this.dispose();
-//    }
 
 }

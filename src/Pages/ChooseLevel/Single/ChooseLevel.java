@@ -76,7 +76,6 @@ public class ChooseLevel extends JFrame {
         animator.start();
 
         setTitle("Maze");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 400);
         setLocationRelativeTo(null);
         setVisible(true);

@@ -1,29 +1,36 @@
 package Maps.Map3.SinglePlayer;
 
-import Core.AnimListener;
-import Core.Directions;
-import Core.Player;
+import Core.*;
 import Core.texture.TextureReader;
+import Maps.Map4.Single.Map4;
+import Pages.ChooseLevel.Single.ChooseLevel;
+import Pages.Lose.Lose;
 import Pages.win.Win;
 import com.sun.opengl.util.GLUT;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.GLException;
 import javax.media.opengl.glu.GLU;
+import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.BitSet;
+import java.util.*;
 
+import static Core.Utils.drawString;
+import static Core.Utils.resetPlayer;
 import static java.awt.event.KeyEvent.*;
 
 public class Map3Listener extends AnimListener {
-    long startTime;
-    long elapsedTime;
-    String gameAudio = "src/music/music.wav";
-    String[] textureNames = {"Maps//Map4.png", "Player.png" };
+    public static String userName = Utils.getLastUser();
+
+    String[] textureNames = {"Ghost1.png" ,"Ghost2.png" ,"Ghost3.png" ,"Ghost4.png","Maps//Map3.png", "Player.png" };
     TextureReader.Texture[] texture = new TextureReader.Texture[textureNames.length];
     int[] textures = new int[textureNames.length];
-    int animationPlayerIndex = 1;
+    int animationPlayerIndex;
     int[][] map = new int[][]{
             {0,-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,0,1,0,1,0,1,1,1,0,1,1,1,0},
@@ -63,12 +70,25 @@ public class Map3Listener extends AnimListener {
 
     int row = map.length;
     int col = map[0].length;
+    Ghost ghost;
+    Random random = new Random();
+
+    AStarAlgorithm aStarAlgorithm= new AStarAlgorithm(map);
+    int time;
+    Timer timer = new Timer(1000, e -> time++);
+    Timer ghostTimerMove = new Timer(500, e -> handleGhostMove());
+    boolean pause = false;
+    int lives = 3;
     Player player = new Player();
+    static Map3 map5;
+    ArrayList<BounceBalls> balls = new ArrayList<>(5);
+    int score;
+    int highScore = ReadHighScore();
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
         GL gl = glAutoDrawable.getGL();
-        gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        gl.glClearColor(0.16f, 0.52f, 0.52f, 1.0f);
 
         gl.glLoadIdentity();
         gl.glOrtho(0, 600, 0, 400, 0, 1.0);
@@ -97,23 +117,11 @@ public class Map3Listener extends AnimListener {
             }
         }
 
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                if (map[i][j] == -1) {
-                    player.i = i;
-                    player.j = j;
-                    player.updateXY();
-                }
-            }
-        }for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                if (map[i][j] == 2) {
-                    player.updateXY();
-                    new Win();
-                }
-            }
-        }
-        startTime = System.currentTimeMillis();
+        resetPlayer(map, row, col, player);
+        initGhost();
+        timer.start();
+        ghostTimerMove.start();
+        addBalls();
 
 
     }
@@ -132,36 +140,36 @@ public class Map3Listener extends AnimListener {
         animationPlayerIndex = animationPlayerIndex % 4;
 
         handleKeyPress();
+        handleLose();
+        handleBallsCollision();
 
         gl.glPushMatrix();
-
-        // Draw timer
-
         gl.glTranslated(135, 385, 0);
         gl.glScaled(1, 1.15, 1);
         gl.glRotated(-90, 0, 0, 1);
-//        for (int i = 0; i < row; i++) {
-//            for (int j = 0; j < col; j++) {
-//                if (map[i][j] == 0){
-//                gl.glPointSize(10);
-//                gl.glColor3f(1.0f,1.0f,0.0f);
-//                gl.glBegin(GL.GL_POINTS);
-//                gl.glVertex2d(i*10,j*10);
-//                gl.glEnd();
-//                }
-//            }
-//        }
-        elapsedTime = System.currentTimeMillis() - startTime;
-        drawTimer(gl);
-        player.Draw(gl,textures[1]);
+        player.Draw(gl,textures[5]);
+        drawGhost(gl);
+        DrawBalles(gl);
         gl.glPopMatrix();
-
-
+        try {
+            drawString(gl, 8, 8, "Time: " + time);
+            drawString(gl, 8, 40, "Lives: " + lives);
+            drawString(gl, 8, 72, "Score: " + score);
+            drawString(gl, 465, 370, "Player1:");
+            drawString(gl, 465, 340, userName);
+        } catch (GLException e) {
+            System.out.println(e.getMessage());
+        }
+        if (score > highScore) {
+            AddHighScore(score);
+            highScore = ReadHighScore();
+        }
+        handelWinning();
     }
 
     public void DrawBackground(GL gl) {
         gl.glEnable(GL.GL_BLEND);    // Turn Blending On
-        gl.glBindTexture(GL.GL_TEXTURE_2D, textures[0]);
+        gl.glBindTexture(GL.GL_TEXTURE_2D, textures[4]);
         gl.glBegin(GL.GL_QUADS);
         // Front Face
         gl.glTexCoord2f(0.0f, 0.0f);
@@ -179,34 +187,73 @@ public class Map3Listener extends AnimListener {
 
         gl.glDisable(GL.GL_BLEND);
     }
-    // ... (previous code)
+    private void addBalls() {
+        ArrayList<Pair> validPositions = new ArrayList<>();
 
-    private void drawTimer(GL gl) {
-        gl.glPushMatrix();
-        gl.glLoadIdentity();
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (map[i][j] == 1) {
+                    validPositions.add(new Pair(i, j));
+                }
+            }
+        }
 
-        // Set color to white
-        gl.glColor3f(1.0f, 1.0f, 1.0f);
-
-        // Set font style
-        GLUT glut = new GLUT();
-
-        // Convert milliseconds to seconds
-        long seconds = elapsedTime / 1000;
-
-        // Convert seconds to MM:SS format
-        String timerText = String.format("%02d:%02d", seconds / 60, seconds % 60);
-
-        // Move to the specified position
-        gl.glRasterPos2d(0.8, 0.9); // Adjust position as needed
-
-        // Draw timer text using glutBitmapString
-        glut.glutBitmapString(GLUT.BITMAP_HELVETICA_18, timerText);
-
-        gl.glPopMatrix();
+        for (int i = 0; i < 5; i++) {
+            Pair item = validPositions.get(random.nextInt(validPositions.size()));
+            balls.add(new BounceBalls(item.i, item.j));
+            validPositions.remove(item);
+        }
     }
 
-// ... (remaining code)
+    private void handelWinning() {
+        if ((map[player.i][player.j] == 2)) { // Winning
+            System.out.println("Win");
+            //  frame.dispose();
+            ChooseLevel.enable = true;
+        }
+    }
+
+    private void handleBallsCollision() {
+        BounceBalls ballToRemove = null;
+        for (BounceBalls ball : balls) {
+            if (player.i == ball.i && player.j == ball.j) {
+                ballToRemove = ball;
+                score = score + 10;
+                System.out.println(score);
+                break;
+            }
+        }
+        if (ballToRemove != null) {
+            balls.remove(ballToRemove);
+        }
+    }
+
+    public static void AddHighScore(int score) {
+        try (FileWriter f = new FileWriter("Score.txt", false);
+             Scanner input = new Scanner(new File("Score.txt"))) {
+            int highScore = input.hasNext() ? input.nextInt() : 0;
+            if (score > highScore) highScore = score;
+            f.write(highScore + "");
+            f.flush();
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    }
+
+    public static int ReadHighScore() {
+        try (Scanner input = new Scanner(new File("Score.txt"));) {
+            return (input.hasNext()) ? input.nextInt() : 0;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public void DrawBalles(GL gl) {
+        for (BounceBalls ball : balls) {
+            ball.Draw(gl, textures[2]);
+        }
+    }
 
 
     @Override
@@ -216,7 +263,23 @@ public class Map3Listener extends AnimListener {
     @Override
     public void displayChanged(GLAutoDrawable glAutoDrawable, boolean b, boolean b1) {
     }
+    private void drawGhost(GL gl) {
+        ghost.Draw(gl, textures[animationPlayerIndex]);
+    }
 
+    private void initGhost() {
+        ArrayList<Pair> validPositions = new ArrayList<>();
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (map[i][j] == 1) {
+                    validPositions.add(new Pair(i, j));
+                }
+            }
+        }
+        Pair item = validPositions.get(random.nextInt(validPositions.size()));
+        ghost = new Ghost(item.i, item.j);
+    }
     public BitSet keyBits = new BitSet(256);
 
     public void handleKeyPress() {
@@ -266,8 +329,46 @@ public class Map3Listener extends AnimListener {
             }
         }
     }
+    private void handleLose() {
+        if (player.i == ghost.i && player.j == ghost.j) {
+            if (lives == 1) {
+                map5.dispose();
+                new Lose().setVisible(true);
+                map5.dispose();
+            } else {
+                lives--;
+                resetPlayer(map, row, col, player);
+            }
+        }
+    }
 
+    private void handleGhostMove() {
+        List<Directions> optimalPath = aStarAlgorithm.findOptimalPath(ghost.i, ghost.j, player.i, player.j);
 
+        if (!optimalPath.isEmpty()) {
+            Directions nextMove = optimalPath.get(0);
+
+            switch (nextMove) {
+                case UP -> {
+                    ghost.moveUP();
+                    animationPlayerIndex++;
+                }
+                case DOWN -> {
+                    ghost.moveDown();
+                    animationPlayerIndex++;
+                }
+                case RIGHT -> {
+                    ghost.moveRight();
+                    animationPlayerIndex++;
+                }
+                case LEFT -> {
+                    ghost.moveLeft();
+                    animationPlayerIndex++;
+                }
+                case IDEAL -> animationPlayerIndex++;
+            }
+        }
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -277,6 +378,19 @@ public class Map3Listener extends AnimListener {
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
         keyBits.set(keyCode);
+        if (keyCode == VK_SPACE) {
+            pause = !pause;
+            if (pause) {
+                timer.stop();
+                ghostTimerMove.stop();
+                Map4.animator.stop();
+                JOptionPane.showMessageDialog(null, "Click Double Space to Resume", "Pause", JOptionPane.WARNING_MESSAGE);
+            } else {
+                Map4.animator.start();
+                timer.start();
+                ghostTimerMove.start();
+            }
+        }
     }
 
     @Override
