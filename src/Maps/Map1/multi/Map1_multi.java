@@ -10,11 +10,11 @@ import java.awt.*;
 import java.awt.event.WindowEvent;
 
 public class Map1_multi extends JFrame {
+        Map1Listener_multi listener = new Map1Listener_multi();
     public Map1_multi(){
         GLCanvas glcanvas;
         Animator animator;
 
-        Map1Listener_multi listener = new Map1Listener_multi();
         glcanvas = new GLCanvas();
         glcanvas.addGLEventListener(listener);
         glcanvas.addKeyListener(listener);
@@ -22,6 +22,7 @@ public class Map1_multi extends JFrame {
         animator = new FPSAnimator(18);
         animator.add(glcanvas);
         animator.start();
+        listener.frame = this;
 
         setTitle("Maze");
         setSize(600, 400);

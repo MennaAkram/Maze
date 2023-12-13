@@ -81,7 +81,6 @@ public class Map3Listener extends AnimListener {
     boolean pause = false;
     int lives = 3;
     Player player = new Player();
-    static Map3 map5;
     ArrayList<BounceBalls> balls = new ArrayList<>(5);
     int score;
     int highScore = ReadHighScore();
@@ -142,6 +141,7 @@ public class Map3Listener extends AnimListener {
 
         handleKeyPress();
         handleLose();
+        handelWinning();
         handleBallsCollision();
 
         gl.glPushMatrix();
@@ -208,8 +208,8 @@ public class Map3Listener extends AnimListener {
 
     private void handelWinning() {
         if ((map[player.i][player.j] == 2)) { // Winning
-            System.out.println("Win");
             frame.dispose();
+            new Win(true).setVisible(true);
             ChooseLevel.enable4 = true;
         }
     }
@@ -306,25 +306,25 @@ public class Map3Listener extends AnimListener {
             }
             case UP -> {
                 if (player.i - 1 < 0) return;
-                if (map[player.i - 1][player.j] == 1) {
+                if (map[player.i - 1][player.j] == 1 || map[player.i - 1][player.j] == 2) {
                     player.moveUP();
                 }
             }
             case DOWN -> {
                 if (player.i + 1 >= col) return;
-                if (map[player.i + 1][player.j] == 1) {
+                if (map[player.i + 1][player.j] == 1 || map[player.i + 1][player.j] == 2) {
                     player.moveDown();
                 }
             }
             case RIGHT -> {
                 if (player.j + 1 >= row) return;
-                if (map[player.i][player.j + 1] == 1) {
+                if (map[player.i][player.j + 1] == 1 || map[player.i][player.j + 1] == 2) {
                     player.moveRight();
                 }
             }
             case LEFT -> {
                 if (player.j - 1 < 0) return;
-                if (map[player.i][player.j - 1] == 1) {
+                if (map[player.i][player.j - 1] == 1 || map[player.i][player.j - 1] == 2) {
                     player.moveLeft();
                 }
             }
@@ -333,9 +333,9 @@ public class Map3Listener extends AnimListener {
     private void handleLose() {
         if (player.i == ghost.i && player.j == ghost.j) {
             if (lives == 1) {
-                map5.dispose();
+                frame.dispose();
                 new Lose().setVisible(true);
-                map5.dispose();
+                ChooseLevel.enable4 = true;
             } else {
                 lives--;
                 resetPlayer(map, row, col, player);

@@ -15,9 +15,9 @@ import java.awt.event.WindowEvent;
 
 public class ChooseLevel extends JFrame {
 
-    public static boolean enable2 = false;
+    public static boolean enable2 = true;
     public static boolean enable3 = false;
-    public static boolean enable4 = false;
+    public static boolean enable4 = true;
     public static void main(String[] args) {
         new ChooseLevel();
     }

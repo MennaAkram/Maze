@@ -5,9 +5,13 @@
 package Pages.Instructions;
 
 import Pages.ChoosePlayer.ChoosePlayer;
+import Pages.Home.HomePage;
 import Pages.UserName.userNameSingle;
 
 import java.awt.Color;
+import java.awt.event.WindowEvent;
+
+import static Pages.Home.HomePage.voice;
 
 /**
  *
@@ -38,7 +42,6 @@ public class SinglePlayerInstructions extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
         setSize(new java.awt.Dimension(600, 400));
 
@@ -156,4 +159,13 @@ public class SinglePlayerInstructions extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
+
+    public void processWindowEvent(final WindowEvent e) {
+        super.processWindowEvent(e);
+        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+            voice.stop();
+            new HomePage().setVisible(true);
+            voice.start();
+        }
+    }
 }

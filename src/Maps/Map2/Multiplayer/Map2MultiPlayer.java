@@ -26,6 +26,7 @@ public class Map2MultiPlayer extends JFrame {
         animator = new FPSAnimator(24);
         animator.add(glcanvas);
         animator.start();
+        listener.frame = this;
 
         setTitle("Maze");
         setSize(600, 400);

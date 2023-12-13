@@ -4,10 +4,13 @@ import Core.AnimListener;
 import Core.Directions;
 import Core.Player;
 import Core.texture.TextureReader;
+import Pages.win.Player1Win;
+import Pages.win.Player2Win;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.BitSet;
@@ -15,6 +18,7 @@ import java.util.BitSet;
 import static java.awt.event.KeyEvent.*;
 
 public class Map1Listener_multi extends AnimListener {
+    JFrame frame =null;
     String[] textureNames = {"Maps//Map1.png", "Player.png", "1.png",};
     TextureReader.Texture[] texture = new TextureReader.Texture[textureNames.length];
     int[] textures = new int[textureNames.length];
@@ -114,6 +118,7 @@ public class Map1Listener_multi extends AnimListener {
 
         handleKeyPress1();
         handleKeyPress2();
+        handelWinning();
 
         gl.glPushMatrix();
         gl.glTranslated(135, 385, 0);
@@ -155,6 +160,16 @@ public class Map1Listener_multi extends AnimListener {
     }
 
     public BitSet keyBits = new BitSet(256);
+
+    private void handelWinning() {
+        if ((map[player1.i][player1.j] == 2)) { // Winning
+            frame.dispose();
+            new Player1Win().setVisible(true);
+        } else if ( map[player2.i][player2.j] == 2) {
+            frame.dispose();
+            new Player2Win().setVisible(true);
+        }
+    }
 
     public void handleKeyPress1() {
         if (isKeyPressed(VK_UP)) {

@@ -5,7 +5,6 @@ import Core.texture.TextureReader;
 import Pages.ChooseLevel.Single.ChooseLevel;
 import Pages.Lose.Lose;
 import Pages.win.Win;
-
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLException;
@@ -17,12 +16,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
-
-
-
 import static Core.Utils.*;
-import static Maps.Map1.single.Map1Listener.AddHighScore;
-import static Maps.Map1.single.Map1Listener.ReadHighScore;
 import static java.awt.event.KeyEvent.*;
 
 public class Map4Listener extends AnimListener {
@@ -83,6 +77,8 @@ public class Map4Listener extends AnimListener {
     ArrayList<BounceBalls> balls = new ArrayList<>(5);
     int score;
     int highScore = ReadHighScore();
+    public static String userName = Utils.getLastUser();
+
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
@@ -145,7 +141,7 @@ public class Map4Listener extends AnimListener {
         gl.glScaled(0.95, 1.1, 1);
         gl.glRotated(-90, 0, 0, 1);
         player.Draw(gl, textures[5]);
-        DrawBalles(gl);
+        DrawBalls(gl);
         drawGhost(gl);
         gl.glPopMatrix();
         if (score > highScore) {
@@ -158,7 +154,7 @@ public class Map4Listener extends AnimListener {
             drawString(gl, 8, 40, "Lives: " + lives);
             drawString(gl, 8, 72, "Score: " + score);
             drawString(gl, 8, 104, "H Score: " + highScore);
-//            drawString(gl, 8, 136, "Name: " + );
+            drawString(gl, 8, 136, "Name: " + userName);
         } catch (GLException e) {
             System.out.println(e.getMessage());
         }
@@ -254,7 +250,7 @@ public class Map4Listener extends AnimListener {
     private void handelWinning() {
         if ((map[player.i][player.j] == 2)) { // Winning
             frame.dispose();
-            new Win().setVisible(true);
+            new Win(true).setVisible(true);
             ChooseLevel.enable2 = true;
             ChooseLevel.enable3 = true;
             ChooseLevel.enable4 = true;
@@ -380,7 +376,7 @@ public class Map4Listener extends AnimListener {
         return 0;
     }
 
-    public void DrawBalles(GL gl) {
+    public void DrawBalls(GL gl) {
         for (BounceBalls ball : balls) {
             ball.Draw(gl, textures[6]);
         }

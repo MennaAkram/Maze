@@ -170,9 +170,8 @@ public class Map1Listener extends AnimListener {
 
     private void handelWinning() {
         if ((map[player.i][player.j] == 2)) { // Winning
-            System.out.println("Win");
             frame.dispose();
-            new Win().setVisible(true);
+            new Win(true).setVisible(true);
             ChooseLevel.enable2 = true;
         }
     }

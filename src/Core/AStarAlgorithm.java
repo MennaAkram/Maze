@@ -106,7 +106,6 @@ public class AStarAlgorithm {
     }
 
     private double heuristic(Point a, Point b) {
-//        return 0.0;
         // Euclidean distance as the heuristic function
         return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
     }

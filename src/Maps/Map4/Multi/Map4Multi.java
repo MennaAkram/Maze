@@ -12,13 +12,13 @@ public class Map4Multi extends JFrame {
         GLCanvas glcanvas;
         public static Animator animator;
 
+        Map4MultiListener listener = new Map4MultiListener();
     public static void main(String[] args) {
         new Map4Multi();
     }
 
     public Map4Multi() {
 
-        Map4MultiListener listener = new Map4MultiListener();
         glcanvas = new GLCanvas();
         glcanvas.addGLEventListener(listener);
         glcanvas.addKeyListener(listener);
@@ -26,6 +26,7 @@ public class Map4Multi extends JFrame {
         animator = new FPSAnimator(24);
         animator.add(glcanvas);
         animator.start();
+        listener.frame = this;
 
         setTitle("Maze");
 

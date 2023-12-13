@@ -17,6 +17,7 @@ public class Lose extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         if (voice == null) voice = playMusic("src/Assets/lose.wav", false);
+        if (HomePage.voice != null) HomePage.voice.stop();
     }
 
     /**
@@ -32,7 +33,6 @@ public class Lose extends javax.swing.JFrame {
         Menu = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
 
         Restart.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N

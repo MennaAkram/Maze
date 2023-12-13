@@ -56,7 +56,7 @@ public class userNameSingle extends javax.swing.JFrame {
         getContentPane().setBackground(new java.awt.Color(0, 0, 0));
 
         DoneBTN.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        DoneBTN.setText("Done");
+        DoneBTN.setText("Play");
         DoneBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {

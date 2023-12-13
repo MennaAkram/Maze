@@ -6,6 +6,8 @@ import Core.Player;
 import Core.Utils;
 import Core.texture.TextureReader;
 import Maps.Map2.Multiplayer.Map2MultiPlayer;
+import Pages.win.Player1Win;
+import Pages.win.Player2Win;
 import Pages.win.Win;
 import com.sun.opengl.util.GLUT;
 
@@ -24,9 +26,10 @@ import static Core.Utils.drawString;
 import static java.awt.event.KeyEvent.*;
 
 public class Map3MultiPlayerListener extends AnimListener {
+    JFrame frame =null;
     public static String userName1 = Utils.getPreLastUser();
     public static String userName2 = Utils.getLastUser();
-    String[] textureNames = {"Maps//Map3.png", "Player.png" , "22.png"};
+    String[] textureNames = {"Maps//Map3.png", "Player.png" , "1.png"};
     TextureReader.Texture[] texture = new TextureReader.Texture[textureNames.length];
     int[] textures = new int[textureNames.length];
     int animationPlayerIndex = 1;
@@ -76,24 +79,6 @@ public class Map3MultiPlayerListener extends AnimListener {
     Timer timer = new Timer(1000, e -> time++);
     boolean pause;
 
-    public Map3MultiPlayerListener() {
-    }
-//    private void initializeAudio() {
-//        try {
-//            // Load an audio file (change the path to your audio file)
-//            File audioFile = new File("E:\\idea\\Maze\\src\\music\\music.wav");
-//            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
-//            Clip audioClip = AudioSystem.getClip();
-//            audioClip.open(audioInputStream);
-//
-//            audioClip.start();
-//            Thread.sleep(audioClip.getMicrosecondLength() / 1000);
-//
-//        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException | InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
         GL gl = glAutoDrawable.getGL();
@@ -136,7 +121,7 @@ public class Map3MultiPlayerListener extends AnimListener {
             for (int j = 0; j < col; j++) {
                 if (map[i][j] == 2) {
                     player1.updateXY();
-                    new Win();
+                    new Win(false);
                 }
             }
         }
@@ -175,10 +160,11 @@ public class Map3MultiPlayerListener extends AnimListener {
         animationPlayerIndex = animationPlayerIndex % 4;
 
         handleKeyPress();
+        handelWinning();
 
         gl.glPushMatrix();
         gl.glTranslated(135, 385, 0);
-        gl.glScaled(1, 1.25, 1);
+        gl.glScaled(1, 1.15, 1);
         gl.glRotated(-90, 0, 0, 1);
         player1.Draw(gl,textures[1]);
         player2.Draw(gl,textures[2]);
@@ -225,6 +211,16 @@ public class Map3MultiPlayerListener extends AnimListener {
 
     public BitSet keyBits = new BitSet(256);
 
+    private void handelWinning() {
+        if ((map[player1.i][player1.j] == 2)) { // Winning
+            frame.dispose();
+            new Player1Win().setVisible(true);
+        } else if ( map[player2.i][player2.j] == 2) {
+            frame.dispose();
+            new Player2Win().setVisible(true);
+        }
+    }
+
     public void handleKeyPress() {
         if (isKeyPressed(VK_UP)) {
             player1.direction = Directions.UP;
@@ -242,16 +238,16 @@ public class Map3MultiPlayerListener extends AnimListener {
             player1.direction = Directions.IDEAL;
         }
         if (isKeyPressed(VK_W)) {
-            player2.direction = Directions.W;
+            player2.direction = Directions.UP;
         }
         if (isKeyPressed(VK_S)) {
-            player2.direction = Directions.S;
+            player2.direction = Directions.DOWN;
         }
         if (isKeyPressed(VK_D)) {
-            player2.direction = Directions.D;
+            player2.direction = Directions.RIGHT;
         }
         if (isKeyPressed(VK_A)) {
-            player2.direction = Directions.A;
+            player2.direction = Directions.LEFT;
         }
         if (!(isKeyPressed(VK_W) || isKeyPressed(VK_S) || isKeyPressed(VK_D) || isKeyPressed(VK_A))) {
             player2.direction = Directions.IDEAL;
@@ -262,25 +258,25 @@ public class Map3MultiPlayerListener extends AnimListener {
             }
             case UP -> {
                 if (player1.i - 1 < 0) return;
-                if (map[player1.i - 1][player1.j] == 1) {
+                if (map[player1.i - 1][player1.j] == 1 || map[player1.i - 1][player1.j] == 2) {
                     player1.moveUP();
                 }
             }
             case DOWN -> {
                 if (player1.i + 1 >= col) return;
-                if (map[player1.i + 1][player1.j] == 1) {
+                if (map[player1.i + 1][player1.j] == 1 || map[player1.i + 1][player1.j] == 2) {
                     player1.moveDown();
                 }
             }
             case RIGHT -> {
                 if (player1.j + 1 >= row) return;
-                if (map[player1.i][player1.j + 1] == 1) {
+                if (map[player1.i][player1.j + 1] == 1 || map[player1.i][player1.j + 1] == 2) {
                     player1.moveRight();
                 }
             }
             case LEFT -> {
                 if (player1.j - 1 < 0) return;
-                if (map[player1.i][player1.j - 1] == 1) {
+                if (map[player1.i][player1.j - 1] == 1 || map[player1.i][player1.j - 1] == 2) {
                     player1.moveLeft();
                 }
             }
@@ -288,27 +284,27 @@ public class Map3MultiPlayerListener extends AnimListener {
         switch (player2.direction) {
             case IDEAL -> {
             }
-            case W -> {
+            case UP -> {
                 if (player2.i - 1 < 0) return;
-                if (map[player2.i - 1][player2.j] == 1) {
+                if (map[player2.i - 1][player2.j] == 1 || map[player2.i - 1][player2.j] == 2) {
                     player2.moveUP();
                 }
             }
-            case S -> {
+            case DOWN -> {
                 if (player2.i + 1 >= col) return;
-                if (map[player2.i + 1][player2.j] == 1) {
+                if (map[player2.i + 1][player2.j] == 1 || map[player2.i + 1][player2.j] == 2) {
                     player2.moveDown();
                 }
             }
-            case D -> {
+            case RIGHT -> {
                 if (player2.j + 1 >= row) return;
-                if (map[player2.i][player2.j + 1] == 1) {
+                if (map[player2.i][player2.j + 1] == 1 || map[player2.i][player2.j + 1] == 2) {
                     player2.moveRight();
                 }
             }
-            case A -> {
+            case LEFT -> {
                 if (player2.j - 1 < 0) return;
-                if (map[player2.i][player2.j - 1] == 1) {
+                if (map[player2.i][player2.j - 1] == 1 || map[player2.i][player2.j - 1] == 2) {
                     player2.moveLeft();
                 }
             }

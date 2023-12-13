@@ -1,12 +1,16 @@
 package Maps.Map3.SinglePlayer;
 
+import Pages.Home.HomePage;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
 
 import javax.media.opengl.GLCanvas;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
+
 public class Map3 extends JFrame {
+        Map3Listener listener = new Map3Listener();
     public static void main(String[] args) {
         new Map3();
     }
@@ -15,7 +19,6 @@ public class Map3 extends JFrame {
         GLCanvas glcanvas;
         Animator animator;
 
-        Map3Listener listener = new Map3Listener();
         glcanvas = new GLCanvas();
         glcanvas.addGLEventListener(listener);
         glcanvas.addKeyListener(listener);
@@ -33,4 +36,12 @@ public class Map3 extends JFrame {
         setFocusable(true);
         glcanvas.requestFocus();
     }
+
+    public void processWindowEvent(final WindowEvent e) {
+        super.processWindowEvent(e);
+        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+            new HomePage().setVisible(true);
+        }
+    }
+
 }

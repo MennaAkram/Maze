@@ -5,6 +5,8 @@ import Core.Directions;
 import Core.Player;
 import Core.Utils;
 import Core.texture.TextureReader;
+import Pages.win.Player1Win;
+import Pages.win.Player2Win;
 import com.sun.opengl.util.GLUT;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -20,7 +22,7 @@ import static java.awt.event.KeyEvent.*;
 import static java.awt.event.KeyEvent.VK_LEFT;
 
 public class Map2MultiPlayerListener extends AnimListener {
-
+    JFrame frame =null;
     public static String userName1 = Utils.getPreLastUser();
     public static String userName2 = Utils.getLastUser();
     String[] textureNames = {"Maps//Map2.png", "Player.png", "Player2.png"};
@@ -140,10 +142,11 @@ public class Map2MultiPlayerListener extends AnimListener {
 
         handlePlayer1Move();
         handlePlayer2Move();
+        handelWinning();
 
         gl.glPushMatrix();
         gl.glTranslated(135, 385, 0);
-        gl.glScaled(0.95, 1.1, 1);
+        gl.glScaled(1, 1.17, 1);
         gl.glRotated(-90, 0, 0, 1);
         player1.Draw(gl, textures[1]);
         player2.Draw(gl, textures[2]);
@@ -190,6 +193,16 @@ public class Map2MultiPlayerListener extends AnimListener {
 
     public BitSet keyBits = new BitSet(256);
 
+    private void handelWinning() {
+        if ((map[player1.i][player1.j] == 2)) { // Winning
+            frame.dispose();
+            new Player1Win().setVisible(true);
+        } else if ( map[player2.i][player2.j] == 2) {
+            frame.dispose();
+            new Player2Win().setVisible(true);
+        }
+    }
+
     public void handlePlayer1Move() {
         if (isKeyPressed(VK_UP)) {
             player1.direction = Directions.UP;
@@ -212,25 +225,25 @@ public class Map2MultiPlayerListener extends AnimListener {
             }
             case UP -> {
                 if (player1.i - 1 < 0) return;
-                if (map[player1.i - 1][player1.j] == 1) {
+                if (map[player1.i - 1][player1.j] == 1 || map[player1.i - 1][player1.j] == 2) {
                     player1.moveUP();
                 }
             }
             case DOWN -> {
                 if (player1.i + 1 >= col) return;
-                if (map[player1.i + 1][player1.j] == 1) {
+                if (map[player1.i + 1][player1.j] == 1 || map[player1.i + 1][player1.j] == 2) {
                     player1.moveDown();
                 }
             }
             case RIGHT -> {
                 if (player1.j + 1 >= row) return;
-                if (map[player1.i][player1.j + 1] == 1) {
+                if (map[player1.i][player1.j + 1] == 1 || map[player1.i][player1.j + 1] == 2) {
                     player1.moveRight();
                 }
             }
             case LEFT -> {
                 if (player1.j - 1 < 0) return;
-                if (map[player1.i][player1.j - 1] == 1) {
+                if (map[player1.i][player1.j - 1] == 1 || map[player1.i][player1.j - 1] == 2) {
                     player1.moveLeft();
                 }
             }
@@ -259,25 +272,25 @@ public class Map2MultiPlayerListener extends AnimListener {
             }
             case UP -> {
                 if (player2.i - 1 < 0) return;
-                if (map[player2.i - 1][player2.j] == 1) {
+                if (map[player2.i - 1][player2.j] == 1 || map[player2.i - 1][player2.j] == 2) {
                     player2.moveUP();
                 }
             }
             case DOWN -> {
                 if (player2.i + 1 >= col) return;
-                if (map[player2.i + 1][player2.j] == 1) {
+                if (map[player2.i + 1][player2.j] == 1 || map[player2.i + 1][player2.j] == 2) {
                     player2.moveDown();
                 }
             }
             case RIGHT -> {
                 if (player2.j + 1 >= row) return;
-                if (map[player2.i][player2.j + 1] == 1) {
+                if (map[player2.i][player2.j + 1] == 1 || map[player2.i][player2.j + 1] == 2) {
                     player2.moveRight();
                 }
             }
             case LEFT -> {
                 if (player2.j - 1 < 0) return;
-                if (map[player2.i][player2.j - 1] == 1) {
+                if (map[player2.i][player2.j - 1] == 1 || map[player2.i][player2.j - 1] == 2) {
                     player2.moveLeft();
                 }
             }

@@ -16,19 +16,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import static Pages.Home.HomePage.voice;
+
 public class userNameMultiplayer extends javax.swing.JFrame {
 
     public userNameMultiplayer() {
         initComponents();
         setLocationRelativeTo(null);
-    }
-
-    public void processWindowEvent(final WindowEvent e) {
-        super.processWindowEvent(e);
-        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-            this.dispose();
-            new HomePage().setVisible(true);
-        }
     }
 
     public void SaveUser(String s) {
@@ -54,8 +48,6 @@ public class userNameMultiplayer extends javax.swing.JFrame {
         Player2Label = new javax.swing.JLabel();
         Player2TextField = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         Player1Label.setFont(new java.awt.Font("Stencil", 0, 24)); // NOI18N
         Player1Label.setText("Player 1");
 
@@ -66,7 +58,7 @@ public class userNameMultiplayer extends javax.swing.JFrame {
         });
 
         DoneBTN.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        DoneBTN.setText("Done");
+        DoneBTN.setText("Play");
         DoneBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DoneBTNActionPerformed();
@@ -217,4 +209,13 @@ public class userNameMultiplayer extends javax.swing.JFrame {
     private javax.swing.JLabel Player2Label;
     private javax.swing.JTextField Player2TextField;
     // End of variables declaration//GEN-END:variables
+
+    public void processWindowEvent(final WindowEvent e) {
+        super.processWindowEvent(e);
+        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+            voice.stop();
+            new HomePage().setVisible(true);
+            voice.start();
+        }
+    }
 }
