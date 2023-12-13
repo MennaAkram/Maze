@@ -25,6 +25,7 @@ import static Core.Utils.resetPlayer;
 import static java.awt.event.KeyEvent.*;
 
 public class Map3Listener extends AnimListener {
+    public JFrame frame;
     public static String userName = Utils.getLastUser();
 
     String[] textureNames = {"Ghost1.png" ,"Ghost2.png" ,"Ghost3.png" ,"Ghost4.png","Maps//Map3.png", "Player.png" };
@@ -208,8 +209,8 @@ public class Map3Listener extends AnimListener {
     private void handelWinning() {
         if ((map[player.i][player.j] == 2)) { // Winning
             System.out.println("Win");
-            //  frame.dispose();
-            ChooseLevel.enable = true;
+            frame.dispose();
+            ChooseLevel.enable4 = true;
         }
     }
 

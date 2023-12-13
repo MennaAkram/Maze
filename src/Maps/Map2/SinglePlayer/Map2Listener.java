@@ -79,7 +79,7 @@ public class Map2Listener extends AnimListener {
     Timer ghostTimerMove = new Timer(500, e -> handleGhostMove());
     boolean pause = false;
     int lives = 3;
-    static Map2 map2 = new Map2();
+    static Map2 map2;
 
 
     @Override

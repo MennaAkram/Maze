@@ -23,6 +23,7 @@ public class Map3 extends JFrame {
         animator = new FPSAnimator(15);
         animator.add(glcanvas);
         animator.start();
+        listener.frame = this;
 
         setTitle("Maze");
         setSize(600, 400);
